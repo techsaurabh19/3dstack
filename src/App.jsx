@@ -1023,8 +1023,8 @@ const ContactPage = () => {
             {[
               { icon: "📧", label: "Email Us", val: "support@3dstack.in" },
               { icon: "💬", label: "WhatsApp", val: "+91 94600 36031" },
-              { icon: "📍", label: "Headquarters", val: "Mumbai, India · Remote-first worldwide" },
-              { icon: "⏰", label: "Response Time", val: "Within 24 hours · Mon–Fri" },
+              { icon: "📍", label: "Headquarters", val: "Jaipur, India · Remote-first worldwide" },
+              { icon: "⏰", label: "Response Time", val: "24×7 · Always available" },
             ].map((i) => (
               <div className="info-item" key={i.label}>
                 <div className="info-icon">{i.icon}</div>
