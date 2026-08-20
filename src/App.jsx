@@ -1021,8 +1021,8 @@ const ContactPage = () => {
 
           <div className="contact-info">
             {[
-              { icon: "📧", label: "Email Us", val: "hello@3ddesigndevelopdeploy.com" },
-              { icon: "💬", label: "WhatsApp", val: "+91 98765 43210" },
+              { icon: "📧", label: "Email Us", val: "support@3dstack.in" },
+              { icon: "💬", label: "WhatsApp", val: "+91 94600 36031" },
               { icon: "📍", label: "Headquarters", val: "Mumbai, India · Remote-first worldwide" },
               { icon: "⏰", label: "Response Time", val: "Within 24 hours · Mon–Fri" },
             ].map((i) => (
