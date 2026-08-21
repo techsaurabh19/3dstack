@@ -1085,7 +1085,26 @@ const Footer = ({ setPage }) => (
         </div>
         <p>End-to-end digital solutions — from idea to deployment. One team, zero hand-offs, complete ownership.</p>
         <div className="social-links" style={{ marginTop: 20 }}>
-          {["𝕏", "in", "🐙", "▶"].map((s) => <a className="social-link" key={s}>{s}</a>)}
+          {[
+            { icon: "📷", label: "Instagram", url: "https://www.instagram.com/3dstack.in?igsh=MTZldmJwYnlueXJ0cg==&utm_source=ig_contact_invite" },
+            { icon: "@", label: "Threads", url: "https://www.threads.com/@3dstack.in" },
+            { icon: "▶", label: "YouTube", url: "https://www.youtube.com/@3DStack" },
+            { icon: "in", label: "LinkedIn", url: "https://www.linkedin.com/in/3dstack/" },
+            { icon: "𝕏", label: "Twitter", url: "https://x.com/3d_stack" },
+            { icon: "Ⓜ", label: "Medium", url: "https://medium.com/@3dstack" },
+            { icon: "🐙", label: "GitHub", url: "https://github.com/3DStackIn" },
+          ].map((s) => (
+            <a
+              className="social-link"
+              key={s.label}
+              href={s.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={s.label}
+            >
+              {s.icon}
+            </a>
+          ))}
         </div>
       </div>
       {[
