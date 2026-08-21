@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { BrowserRouter, Routes, Route, Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 
 /* ─── GLOBAL STYLES ─────────────────────────────────────────── */
 const GlobalStyle = () => (
@@ -76,6 +77,7 @@ const GlobalStyle = () => (
       padding: 10px 22px; border-radius: 8px; font-family: 'Syne', sans-serif;
       font-weight: 700; font-size: 0.85rem; letter-spacing: 0.03em;
       transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none; display: inline-flex; align-items: center;
     }
     .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,94,26,0.45); }
     .hamburger {
@@ -155,6 +157,7 @@ const GlobalStyle = () => (
       font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.95rem;
       cursor: pointer; transition: all 0.25s; letter-spacing: 0.02em;
       box-shadow: 0 4px 20px rgba(255,94,26,0.4);
+      text-decoration: none; display: inline-flex; align-items: center; justify-content: center;
     }
     .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(255,94,26,0.55); }
     .btn-outline {
@@ -163,6 +166,7 @@ const GlobalStyle = () => (
       padding: 14px 30px; border-radius: 10px;
       font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.95rem;
       cursor: pointer; transition: all 0.25s;
+      text-decoration: none; display: inline-flex; align-items: center; justify-content: center;
     }
     .btn-outline:hover { border-color: var(--blue-sky); color: var(--blue-sky); transform: translateY(-3px); }
     .hero-stats { display: flex; gap: 40px; margin-top: 52px; padding-top: 40px; border-top: 1px solid var(--card-border); }
@@ -435,9 +439,19 @@ const LogoImg = ({ size = 36 }) => (
 );
 
 /* ─── NAV ─────────────────────────────────────────────────── */
-const Nav = ({ page, setPage }) => {
+const navLinks = [
+  { label: "Home", path: "/" },
+  { label: "About", path: "/about" },
+  { label: "Services", path: "/services" },
+  { label: "Process", path: "/process" },
+  { label: "Blog", path: "/blog" },
+  { label: "Contact", path: "/contact" },
+];
+
+const Nav = () => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 20);
@@ -445,41 +459,39 @@ const Nav = ({ page, setPage }) => {
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
-  const links = ["Home", "About", "Services", "Process", "Blog", "Contact"];
-
-  const go = (p) => { setPage(p); setMenuOpen(false); window.scrollTo(0, 0); };
+  useEffect(() => { setMenuOpen(false); }, [location.pathname]);
 
   return (
     <>
       <nav className={scrolled ? "scrolled" : ""}>
-        <div className="nav-logo" onClick={() => go("Home")} style={{ cursor: "pointer" }}>
+        <Link to="/" className="nav-logo">
           <LogoImg size={36} />
           <span>3D³</span>
-        </div>
+        </Link>
         <ul className="nav-links">
-          {links.map((l) => (
-            <li key={l}>
-              <a className={page === l ? "active" : ""} onClick={() => go(l)} style={{ cursor: "pointer" }}>{l}</a>
+          {navLinks.map((l) => (
+            <li key={l.label}>
+              <Link to={l.path} className={location.pathname === l.path ? "active" : ""}>{l.label}</Link>
             </li>
           ))}
         </ul>
-        <button className="nav-cta" onClick={() => go("Contact")}>Get Started →</button>
+        <Link to="/contact" className="nav-cta">Get Started →</Link>
         <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
           <span /><span /><span />
         </button>
       </nav>
       <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
-        {links.map((l) => (
-          <a key={l} onClick={() => go(l)} style={{ cursor: "pointer" }}>{l}</a>
+        {navLinks.map((l) => (
+          <Link key={l.label} to={l.path}>{l.label}</Link>
         ))}
-        <button className="btn-primary" onClick={() => go("Contact")} style={{ marginTop: 8 }}>Get Started →</button>
+        <Link to="/contact" className="btn-primary" style={{ marginTop: 8, textAlign: "center", textDecoration: "none" }}>Get Started →</Link>
       </div>
     </>
   );
 };
 
 /* ─── HOME PAGE ───────────────────────────────────────────── */
-const HomePage = ({ setPage }) => (
+const HomePage = () => (
   <div className="page">
     {/* HERO */}
     <section className="hero">
@@ -500,8 +512,8 @@ const HomePage = ({ setPage }) => (
             into a scalable, production-ready product — fast, clean, and future-proof.
           </p>
           <div className="hero-actions">
-            <button className="btn-primary" onClick={() => setPage("Contact")}>Get Started Free →</button>
-            <button className="btn-outline" onClick={() => setPage("Services")}>Explore Services</button>
+            <Link to="/contact" className="btn-primary">Get Started Free →</Link>
+            <Link to="/services" className="btn-outline">Explore Services</Link>
           </div>
           <div className="hero-stats">
             {[["50+", "Projects Delivered"], ["3x", "Faster Deployment"], ["99.9%", "Uptime SLA"], ["24/7", "Monitoring"]].map(([v, l]) => (
@@ -537,12 +549,12 @@ const HomePage = ({ setPage }) => (
             <div className="card-icon">{s.icon}</div>
             <h3>{s.title}</h3>
             <p>{s.desc}</p>
-            <button
-              onClick={() => setPage("Services")}
-              style={{ marginTop: 20, background: "none", border: "none", color: s.color, fontWeight: 700, cursor: "pointer", fontSize: "0.85rem", fontFamily: "Syne, sans-serif", padding: 0 }}
+            <Link
+              to="/services"
+              style={{ marginTop: 20, display: "inline-block", background: "none", border: "none", color: s.color, fontWeight: 700, cursor: "pointer", fontSize: "0.85rem", fontFamily: "Syne, sans-serif", padding: 0, textDecoration: "none" }}
             >
               Learn more →
-            </button>
+            </Link>
           </div>
         ))}
       </div>
@@ -636,15 +648,15 @@ const HomePage = ({ setPage }) => (
       <h2>Ready to Build Something <span style={{ color: "var(--orange)" }}>Exceptional?</span></h2>
       <p>Book a free 30-minute strategy call. No pressure, just clarity on what's possible.</p>
       <div className="cta-band-actions">
-        <button className="btn-primary" onClick={() => setPage("Contact")}>Book Free Consultation</button>
-        <button className="btn-outline" onClick={() => setPage("Services")}>View All Services</button>
+        <Link to="/contact" className="btn-primary">Book Free Consultation</Link>
+        <Link to="/services" className="btn-outline">View All Services</Link>
       </div>
     </div>
   </div>
 );
 
 /* ─── ABOUT PAGE ──────────────────────────────────────────── */
-const AboutPage = ({ setPage }) => (
+const AboutPage = () => (
   <div className="page" style={{ paddingTop: 70 }}>
     <section>
       <div className="about-grid">
@@ -661,7 +673,7 @@ const AboutPage = ({ setPage }) => (
             to the production Kubernetes cluster. We've shipped products for startups, scale-ups, and enterprises
             across FinTech, EdTech, HealthTech, and SaaS.
           </p>
-          <button className="btn-primary" onClick={() => setPage("Contact")}>Work With Us →</button>
+          <Link to="/contact" className="btn-primary">Work With Us →</Link>
         </div>
         <div className="about-visual">
           <div style={{
@@ -716,7 +728,7 @@ const AboutPage = ({ setPage }) => (
       <h2>Join <span style={{ color: "var(--orange)" }}>50+ companies</span> who shipped with us</h2>
       <p>Let's talk about your project. No commitment, just a conversation.</p>
       <div className="cta-band-actions">
-        <button className="btn-primary" onClick={() => setPage("Contact")}>Start a Conversation</button>
+        <Link to="/contact" className="btn-primary">Start a Conversation</Link>
       </div>
     </div>
   </div>
@@ -774,7 +786,7 @@ const services = [
   },
 ];
 
-const ServicesPage = ({ setPage }) => (
+const ServicesPage = () => (
   <div className="page" style={{ paddingTop: 70 }}>
     <section>
       <div className="section-label">Services</div>
@@ -820,14 +832,14 @@ const ServicesPage = ({ setPage }) => (
       <h2>Not sure what you need?<br /><span style={{ color: "var(--orange)" }}>Let's figure it out together.</span></h2>
       <p>Book a free 30-min scope call. We'll map the right services to your goals.</p>
       <div className="cta-band-actions">
-        <button className="btn-primary" onClick={() => setPage("Contact")}>Book Free Scope Call</button>
+        <Link to="/contact" className="btn-primary">Book Free Scope Call</Link>
       </div>
     </div>
   </div>
 );
 
 /* ─── PROCESS PAGE ────────────────────────────────────────── */
-const ProcessPage = ({ setPage }) => (
+const ProcessPage = () => (
   <div className="page" style={{ paddingTop: 70 }}>
     <section>
       <div className="section-label">How We Work</div>
@@ -897,7 +909,7 @@ const ProcessPage = ({ setPage }) => (
       <h2>Ready to start <span style={{ color: "var(--orange)" }}>Step 01?</span></h2>
       <p>Book your requirements session today. It's free, focused, and sets the foundation for everything.</p>
       <div className="cta-band-actions">
-        <button className="btn-primary" onClick={() => setPage("Contact")}>Start the Process</button>
+        <Link to="/contact" className="btn-primary">Start the Process</Link>
       </div>
     </div>
   </div>
@@ -1105,7 +1117,7 @@ const caseStudies = [
   },
 ];
 
-const CaseStudiesPage = ({ setPage }) => (
+const CaseStudiesPage = () => (
   <div className="page" style={{ paddingTop: 70 }}>
     <section>
       <div className="section-label">Case Studies</div>
@@ -1146,7 +1158,7 @@ const CaseStudiesPage = ({ setPage }) => (
       <h2>Want results like <span style={{ color: "var(--orange)" }}>these?</span></h2>
       <p>Let's talk about what you're building.</p>
       <div className="cta-band-actions">
-        <button className="btn-primary" onClick={() => setPage("Contact")}>Start a Conversation</button>
+        <Link to="/contact" className="btn-primary">Start a Conversation</Link>
       </div>
     </div>
   </div>
@@ -1162,7 +1174,7 @@ const docs = [
   { q: "Do you sign NDAs before scoping calls?", a: "Yes, on request — just mention it when you book your call or reach out via the contact form." },
 ];
 
-const DocumentationPage = ({ setPage }) => (
+const DocumentationPage = () => (
   <div className="page" style={{ paddingTop: 70 }}>
     <section>
       <div className="section-label">Documentation</div>
@@ -1183,7 +1195,7 @@ const DocumentationPage = ({ setPage }) => (
       <h2>Still have <span style={{ color: "var(--orange)" }}>questions?</span></h2>
       <p>Send us a message — we typically respond within 24 hours.</p>
       <div className="cta-band-actions">
-        <button className="btn-primary" onClick={() => setPage("Contact")}>Ask Us Anything</button>
+        <Link to="/contact" className="btn-primary">Ask Us Anything</Link>
       </div>
     </div>
   </div>
@@ -1205,7 +1217,7 @@ const pricingTiers = [
   },
 ];
 
-const PricingPage = ({ setPage }) => (
+const PricingPage = () => (
   <div className="page" style={{ paddingTop: 70 }}>
     <section>
       <div className="section-label">Pricing</div>
@@ -1227,7 +1239,7 @@ const PricingPage = ({ setPage }) => (
             <ul className="benefit-list" style={{ marginBottom: 24 }}>
               {t.features.map((f) => <li key={f}>{f}</li>)}
             </ul>
-            <button className={t.featured ? "btn-primary" : "btn-outline"} style={{ width: "100%" }} onClick={() => setPage("Contact")}>Get a Custom Quote →</button>
+            <Link to="/contact" className={t.featured ? "btn-primary" : "btn-outline"} style={{ width: "100%" }}>Get a Custom Quote →</Link>
           </div>
         ))}
       </div>
@@ -1236,7 +1248,7 @@ const PricingPage = ({ setPage }) => (
       <h2>Not sure which tier <span style={{ color: "var(--orange)" }}>fits?</span></h2>
       <p>Book a free 30-min scope call and we'll recommend the right starting point.</p>
       <div className="cta-band-actions">
-        <button className="btn-primary" onClick={() => setPage("Contact")}>Book Free Scope Call</button>
+        <Link to="/contact" className="btn-primary">Book Free Scope Call</Link>
       </div>
     </div>
   </div>
@@ -1283,7 +1295,36 @@ const StatusPage = () => (
 );
 
 /* ─── FOOTER ──────────────────────────────────────────────── */
-const Footer = ({ setPage }) => (
+const footerColumns = [
+  {
+    title: "Services", links: [
+      { label: "UI/UX Design", path: "/services" },
+      { label: "Web Development", path: "/services" },
+      { label: "Mobile Apps", path: "/services" },
+      { label: "DevOps & CI/CD", path: "/services" },
+      { label: "Cloud Infrastructure", path: "/services" },
+      { label: "Kubernetes", path: "/services" },
+    ]
+  },
+  {
+    title: "Company", links: [
+      { label: "About Us", path: "/about" },
+      { label: "Process", path: "/process" },
+      { label: "Blog", path: "/blog" },
+      { label: "Contact", path: "/contact" },
+    ]
+  },
+  {
+    title: "Resources", links: [
+      { label: "Case Studies", path: "/case-studies" },
+      { label: "Documentation", path: "/documentation" },
+      { label: "Pricing", path: "/pricing" },
+      { label: "Status Page", path: "/status" },
+    ]
+  },
+];
+
+const Footer = () => (
   <footer>
     <div className="footer-grid">
       <div className="footer-brand">
@@ -1315,38 +1356,11 @@ const Footer = ({ setPage }) => (
           ))}
         </div>
       </div>
-      {[
-        {
-          title: "Services", links: [
-            { label: "UI/UX Design", page: "Services" },
-            { label: "Web Development", page: "Services" },
-            { label: "Mobile Apps", page: "Services" },
-            { label: "DevOps & CI/CD", page: "Services" },
-            { label: "Cloud Infrastructure", page: "Services" },
-            { label: "Kubernetes", page: "Services" },
-          ]
-        },
-        {
-          title: "Company", links: [
-            { label: "About Us", page: "About" },
-            { label: "Process", page: "Process" },
-            { label: "Blog", page: "Blog" },
-            { label: "Contact", page: "Contact" },
-          ]
-        },
-        {
-          title: "Resources", links: [
-            { label: "Case Studies", page: "Case Studies" },
-            { label: "Documentation", page: "Documentation" },
-            { label: "Pricing", page: "Pricing" },
-            { label: "Status Page", page: "Status Page" },
-          ]
-        },
-      ].map((col) => (
+      {footerColumns.map((col) => (
         <div className="footer-col" key={col.title}>
           <h4>{col.title}</h4>
           {col.links.map((l) => (
-            <a key={l.label} onClick={() => { setPage(l.page); window.scrollTo(0, 0); }} style={{ cursor: "pointer" }}>{l.label}</a>
+            <Link key={l.label} to={l.path}>{l.label}</Link>
           ))}
         </div>
       ))}
@@ -1358,32 +1372,94 @@ const Footer = ({ setPage }) => (
   </footer>
 );
 
+/* ─── PAGE META (per-route title & description) ──────────── */
+const PAGE_META = {
+  "/": {
+    title: "3D Design Develop Deploy — Design, Development & DevOps Agency",
+    description: "One partner for design, development, DevOps, and cloud. We turn your vision into a scalable, production-ready product — fast, clean, and future-proof.",
+  },
+  "/about": {
+    title: "About Us | 3D Design Develop Deploy",
+    description: "3D³ is an end-to-end technology partner for design, development, and deployment — one team, zero hand-offs, complete ownership.",
+  },
+  "/services": {
+    title: "Services | 3D Design Develop Deploy",
+    description: "UI/UX design, web & mobile development, DevOps, cloud infrastructure, and Kubernetes — modular services for every stage of your product.",
+  },
+  "/process": {
+    title: "Our Process | 3D Design Develop Deploy",
+    description: "A battle-tested 4-phase delivery framework: requirements & design, development, testing & QA, deployment & monitoring.",
+  },
+  "/blog": {
+    title: "Blog | 3D Design Develop Deploy",
+    description: "Insights on DevOps, cloud infrastructure, design systems, and shipping software — real lessons from the trenches.",
+  },
+  "/contact": {
+    title: "Contact Us | 3D Design Develop Deploy",
+    description: "Tell us about your project. We'll respond within 24 hours with a clear next step.",
+  },
+  "/case-studies": {
+    title: "Case Studies | 3D Design Develop Deploy",
+    description: "Real projects, real results — how we've taken products from idea to production for FinTech, E-Commerce, and EdTech clients.",
+  },
+  "/documentation": {
+    title: "Documentation | 3D Design Develop Deploy",
+    description: "Answers to common questions about engagements, tech stack, support, and pricing.",
+  },
+  "/pricing": {
+    title: "Pricing | 3D Design Develop Deploy",
+    description: "Simple starting price tiers for design, development, and deployment engagements — Starter, Growth, and Enterprise.",
+  },
+  "/status": {
+    title: "System Status | 3D Design Develop Deploy",
+    description: "Current operational status of 3D³ systems and client-facing infrastructure.",
+  },
+};
+
+const RouteEffects = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+
+    const meta = PAGE_META[location.pathname] || PAGE_META["/"];
+    document.title = meta.title;
+
+    let tag = document.querySelector('meta[name="description"]');
+    if (!tag) {
+      tag = document.createElement("meta");
+      tag.setAttribute("name", "description");
+      document.head.appendChild(tag);
+    }
+    tag.setAttribute("content", meta.description);
+  }, [location.pathname]);
+
+  return null;
+};
+
 /* ─── APP ─────────────────────────────────────────────────── */
 export default function App() {
-  const [page, setPage] = useState("Home");
-
-  const renderPage = () => {
-    switch (page) {
-      case "Home":    return <HomePage setPage={setPage} />;
-      case "About":   return <AboutPage setPage={setPage} />;
-      case "Services":return <ServicesPage setPage={setPage} />;
-      case "Process": return <ProcessPage setPage={setPage} />;
-      case "Blog":    return <BlogPage />;
-      case "Contact": return <ContactPage />;
-      case "Case Studies":  return <CaseStudiesPage setPage={setPage} />;
-      case "Documentation": return <DocumentationPage setPage={setPage} />;
-      case "Pricing":        return <PricingPage setPage={setPage} />;
-      case "Status Page":    return <StatusPage />;
-      default:        return <HomePage setPage={setPage} />;
-    }
-  };
-
   return (
-    <>
+    <BrowserRouter>
       <GlobalStyle />
-      <Nav page={page} setPage={setPage} />
-      <main>{renderPage()}</main>
-      <Footer setPage={setPage} />
-    </>
+      <RouteEffects />
+      <Nav />
+      <main>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/process" element={<ProcessPage />} />
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/case-studies" element={<CaseStudiesPage />} />
+          <Route path="/documentation" element={<DocumentationPage />} />
+          <Route path="/pricing" element={<PricingPage />} />
+          <Route path="/status" element={<StatusPage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </main>
+      <Footer />
+    </BrowserRouter>
   );
 }
