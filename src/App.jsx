@@ -1074,6 +1074,214 @@ const ContactPage = () => {
   );
 };
 
+/* ─── CASE STUDIES PAGE ───────────────────────────────────── */
+const caseStudies = [
+  {
+    icon: "💳", tag: "FinTech", company: "FinStack",
+    title: "From idea to production in 6 weeks",
+    challenge: "FinStack needed a production-ready platform fast, without stitching together separate agencies for design, development, and DevOps.",
+    solution: "3D³ ran design, development, and deployment as one team — Figma to Kubernetes cluster, with weekly demos throughout.",
+    result: "Launched in 6 weeks. DevOps automation now saves 40+ engineering hours every month.",
+    quote: "The DevOps setup alone saved us 40+ hours every month. Absolute professionals.",
+    person: "Arjun Mehta, CEO"
+  },
+  {
+    icon: "🛒", tag: "E-Commerce", company: "CloudRetail",
+    title: "Zero-downtime Kubernetes migration",
+    challenge: "CloudRetail's infrastructure couldn't handle traffic spikes, and monitoring was minimal.",
+    solution: "Migrated to a Kubernetes-native architecture with full observability (Prometheus + Grafana) and autoscaling.",
+    result: "Zero downtime during migration. Infrastructure costs dropped 35% afterward.",
+    quote: "Zero downtime, full monitoring, and our infra costs dropped by 35%.",
+    person: "Sarah Williams, CTO"
+  },
+  {
+    icon: "🎓", tag: "EdTech", company: "EdTechPro",
+    title: "Design-to-launch, 3 weeks ahead of schedule",
+    challenge: "EdTechPro needed a polished, investor-ready product experience under a tight fundraising deadline.",
+    solution: "Ran design and development in parallel sprints with continuous stakeholder review.",
+    result: "Shipped 3 weeks ahead of schedule with a launch-ready, investor-facing product.",
+    quote: "The design work was stunning, but what really impressed us was how quickly they shipped.",
+    person: "Priya Nair, Founder"
+  },
+];
+
+const CaseStudiesPage = ({ setPage }) => (
+  <div className="page" style={{ paddingTop: 70 }}>
+    <section>
+      <div className="section-label">Case Studies</div>
+      <h1 className="section-title">Real projects.<br /><span style={{ color: "var(--orange)" }}>Real results.</span></h1>
+      <p className="section-sub">A closer look at how we've taken products from idea to production.</p>
+    </section>
+    {caseStudies.map((c) => (
+      <section key={c.company} style={{ paddingTop: 0, paddingBottom: 60 }}>
+        <div className="card" style={{ padding: 40 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 24 }}>
+            <div className="card-icon" style={{ margin: 0, width: 56, height: 56, fontSize: "1.8rem" }}>{c.icon}</div>
+            <div>
+              <div className="service-badge" style={{ marginBottom: 6 }}>{c.tag}</div>
+              <h2 style={{ fontFamily: "Syne", fontWeight: 800, fontSize: "1.4rem" }}>{c.company} — {c.title}</h2>
+            </div>
+          </div>
+          <div className="grid-3" style={{ marginBottom: 24 }}>
+            <div>
+              <div style={{ fontSize: "0.75rem", color: "var(--grey-500)", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 8 }}>Challenge</div>
+              <p style={{ fontSize: "0.9rem", color: "var(--grey-300)", lineHeight: 1.65 }}>{c.challenge}</p>
+            </div>
+            <div>
+              <div style={{ fontSize: "0.75rem", color: "var(--grey-500)", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 8 }}>Solution</div>
+              <p style={{ fontSize: "0.9rem", color: "var(--grey-300)", lineHeight: 1.65 }}>{c.solution}</p>
+            </div>
+            <div>
+              <div style={{ fontSize: "0.75rem", color: "var(--orange)", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 8 }}>Result</div>
+              <p style={{ fontSize: "0.9rem", color: "var(--grey-300)", lineHeight: 1.65 }}>{c.result}</p>
+            </div>
+          </div>
+          <div style={{ borderTop: "1px solid var(--card-border)", paddingTop: 20, fontStyle: "italic", color: "var(--grey-300)", fontSize: "0.92rem" }}>
+            "{c.quote}" <span style={{ fontStyle: "normal", color: "var(--grey-500)" }}>— {c.person}</span>
+          </div>
+        </div>
+      </section>
+    ))}
+    <div className="cta-band">
+      <h2>Want results like <span style={{ color: "var(--orange)" }}>these?</span></h2>
+      <p>Let's talk about what you're building.</p>
+      <div className="cta-band-actions">
+        <button className="btn-primary" onClick={() => setPage("Contact")}>Start a Conversation</button>
+      </div>
+    </div>
+  </div>
+);
+
+/* ─── DOCUMENTATION PAGE ──────────────────────────────────── */
+const docs = [
+  { q: "What's included in a typical engagement?", a: "Depending on scope: discovery & design, full-stack development, CI/CD pipeline setup, cloud infrastructure, and post-launch monitoring. See our Process page for the full breakdown." },
+  { q: "What tech stack do you use?", a: "React/Next.js/Vue on the frontend, Node.js/Python/Go on the backend, Kubernetes on AWS/Azure/GCP for infrastructure, and Terraform for IaC. We adapt to your existing stack when needed." },
+  { q: "Do you provide post-launch support?", a: "Yes — every engagement includes a support window post-launch, and ongoing retainers are available for continued feature work and monitoring." },
+  { q: "How do I report an issue or get help?", a: "Email support@3dstack.in or use the contact form — we respond within 24 hours." },
+  { q: "Where can I find pricing details?", a: "See our Pricing page for starting ranges, or book a free strategy call for a custom quote." },
+  { q: "Do you sign NDAs before scoping calls?", a: "Yes, on request — just mention it when you book your call or reach out via the contact form." },
+];
+
+const DocumentationPage = ({ setPage }) => (
+  <div className="page" style={{ paddingTop: 70 }}>
+    <section>
+      <div className="section-label">Documentation</div>
+      <h1 className="section-title">How we work,<br /><span style={{ color: "var(--orange)" }}>answered.</span></h1>
+      <p className="section-sub">Common questions about engagements, tech stack, and support. Don't see yours — just ask.</p>
+    </section>
+    <section style={{ paddingTop: 0 }}>
+      <div className="grid-2">
+        {docs.map((d) => (
+          <div className="card" key={d.q}>
+            <h3 style={{ marginBottom: 10 }}>{d.q}</h3>
+            <p>{d.a}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+    <div className="cta-band">
+      <h2>Still have <span style={{ color: "var(--orange)" }}>questions?</span></h2>
+      <p>Send us a message — we typically respond within 24 hours.</p>
+      <div className="cta-band-actions">
+        <button className="btn-primary" onClick={() => setPage("Contact")}>Ask Us Anything</button>
+      </div>
+    </div>
+  </div>
+);
+
+/* ─── PRICING PAGE ────────────────────────────────────────── */
+const pricingTiers = [
+  {
+    name: "Starter", tagline: "For MVPs and single-service engagements", priceNote: "Starting at $5,000",
+    features: ["One core service — Design, Develop, or Deploy", "Dedicated project lead", "Weekly progress updates", "2-week delivery sprints", "30 days post-launch support"],
+  },
+  {
+    name: "Growth", tagline: "For full end-to-end product builds", priceNote: "Starting at $15,000", featured: true,
+    features: ["Design + Development + Deployment", "Dedicated 2–3 person team", "Daily standups & shared Slack channel", "CI/CD pipeline & cloud infra included", "90 days post-launch support"],
+  },
+  {
+    name: "Enterprise", tagline: "For scale-ups and complex platforms", priceNote: "Custom pricing",
+    features: ["Full 3D³ team across all services", "Dedicated DevOps & SRE support", "Multi-region, HA architecture", "Compliance & security audits", "Ongoing SLA-backed support"],
+  },
+];
+
+const PricingPage = ({ setPage }) => (
+  <div className="page" style={{ paddingTop: 70 }}>
+    <section>
+      <div className="section-label">Pricing</div>
+      <h1 className="section-title">Simple starting points.<br /><span style={{ color: "var(--orange)" }}>Custom-scoped delivery.</span></h1>
+      <p className="section-sub">Every engagement is scoped individually based on complexity, timeline, and team size. These are starting ranges — book a free call for an exact quote.</p>
+    </section>
+    <section style={{ paddingTop: 0 }}>
+      <div className="grid-3">
+        {pricingTiers.map((t) => (
+          <div
+            className="card"
+            key={t.name}
+            style={t.featured ? { borderColor: "var(--orange)", boxShadow: "0 0 0 1px var(--orange)" } : undefined}
+          >
+            {t.featured && <div className="service-badge" style={{ background: "rgba(255,94,26,0.15)", color: "var(--orange)" }}>Most Popular</div>}
+            <h3 style={{ fontSize: "1.3rem", marginTop: t.featured ? 8 : 0 }}>{t.name}</h3>
+            <p style={{ marginBottom: 16 }}>{t.tagline}</p>
+            <div style={{ fontFamily: "Syne", fontWeight: 800, fontSize: "1.6rem", color: "var(--white)", marginBottom: 20 }}>{t.priceNote}</div>
+            <ul className="benefit-list" style={{ marginBottom: 24 }}>
+              {t.features.map((f) => <li key={f}>{f}</li>)}
+            </ul>
+            <button className={t.featured ? "btn-primary" : "btn-outline"} style={{ width: "100%" }} onClick={() => setPage("Contact")}>Get a Custom Quote →</button>
+          </div>
+        ))}
+      </div>
+    </section>
+    <div className="cta-band">
+      <h2>Not sure which tier <span style={{ color: "var(--orange)" }}>fits?</span></h2>
+      <p>Book a free 30-min scope call and we'll recommend the right starting point.</p>
+      <div className="cta-band-actions">
+        <button className="btn-primary" onClick={() => setPage("Contact")}>Book Free Scope Call</button>
+      </div>
+    </div>
+  </div>
+);
+
+/* ─── STATUS PAGE ─────────────────────────────────────────── */
+const systems = [
+  { name: "Website (3dstack.in)", status: "Operational" },
+  { name: "Contact Form / Lead Pipeline", status: "Operational" },
+  { name: "Client Deployment Pipelines", status: "Operational" },
+  { name: "Monitoring & Alerting", status: "Operational" },
+];
+
+const StatusPage = () => (
+  <div className="page" style={{ paddingTop: 70 }}>
+    <section>
+      <div className="section-label">Status</div>
+      <h1 className="section-title">System status</h1>
+      <p className="section-sub">Current status of 3D³ systems and client-facing infrastructure.</p>
+    </section>
+    <section style={{ paddingTop: 0 }}>
+      <div className="card" style={{ padding: 0, overflow: "hidden" }}>
+        {systems.map((s, i) => (
+          <div
+            key={s.name}
+            style={{
+              display: "flex", alignItems: "center", justifyContent: "space-between",
+              padding: "20px 28px", borderBottom: i < systems.length - 1 ? "1px solid var(--card-border)" : "none",
+            }}
+          >
+            <span style={{ fontWeight: 600 }}>{s.name}</span>
+            <span style={{ display: "flex", alignItems: "center", gap: 8, color: "#3DDC84", fontSize: "0.88rem", fontWeight: 700 }}>
+              <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#3DDC84", display: "inline-block" }} />
+              {s.status}
+            </span>
+          </div>
+        ))}
+      </div>
+      <p style={{ color: "var(--grey-500)", fontSize: "0.82rem", marginTop: 20 }}>
+        This status page is manually maintained, not auto-generated from live monitoring. For real-time incident updates on your specific project, contact your project lead or support@3dstack.in.
+      </p>
+    </section>
+  </div>
+);
+
 /* ─── FOOTER ──────────────────────────────────────────────── */
 const Footer = ({ setPage }) => (
   <footer>
@@ -1108,13 +1316,38 @@ const Footer = ({ setPage }) => (
         </div>
       </div>
       {[
-        { title: "Services", links: ["UI/UX Design", "Web Development", "Mobile Apps", "DevOps & CI/CD", "Cloud Infrastructure", "Kubernetes"] },
-        { title: "Company", links: ["About Us", "Process", "Blog", "Contact"] },
-        { title: "Resources", links: ["Case Studies", "Documentation", "Pricing", "Status Page"] },
+        {
+          title: "Services", links: [
+            { label: "UI/UX Design", page: "Services" },
+            { label: "Web Development", page: "Services" },
+            { label: "Mobile Apps", page: "Services" },
+            { label: "DevOps & CI/CD", page: "Services" },
+            { label: "Cloud Infrastructure", page: "Services" },
+            { label: "Kubernetes", page: "Services" },
+          ]
+        },
+        {
+          title: "Company", links: [
+            { label: "About Us", page: "About" },
+            { label: "Process", page: "Process" },
+            { label: "Blog", page: "Blog" },
+            { label: "Contact", page: "Contact" },
+          ]
+        },
+        {
+          title: "Resources", links: [
+            { label: "Case Studies", page: "Case Studies" },
+            { label: "Documentation", page: "Documentation" },
+            { label: "Pricing", page: "Pricing" },
+            { label: "Status Page", page: "Status Page" },
+          ]
+        },
       ].map((col) => (
         <div className="footer-col" key={col.title}>
           <h4>{col.title}</h4>
-          {col.links.map((l) => <a key={l} onClick={() => { setPage(l === "About Us" ? "About" : l === "Process" ? "Process" : l === "Blog" ? "Blog" : l === "Contact" ? "Contact" : "Services"); window.scrollTo(0,0); }} style={{ cursor: "pointer" }}>{l}</a>)}
+          {col.links.map((l) => (
+            <a key={l.label} onClick={() => { setPage(l.page); window.scrollTo(0, 0); }} style={{ cursor: "pointer" }}>{l.label}</a>
+          ))}
         </div>
       ))}
     </div>
@@ -1137,6 +1370,10 @@ export default function App() {
       case "Process": return <ProcessPage setPage={setPage} />;
       case "Blog":    return <BlogPage />;
       case "Contact": return <ContactPage />;
+      case "Case Studies":  return <CaseStudiesPage setPage={setPage} />;
+      case "Documentation": return <DocumentationPage setPage={setPage} />;
+      case "Pricing":        return <PricingPage setPage={setPage} />;
+      case "Status Page":    return <StatusPage />;
       default:        return <HomePage setPage={setPage} />;
     }
   };
