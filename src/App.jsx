@@ -1074,7 +1074,7 @@ const Footer = ({ setPage }) => (
     </div>
     <div className="footer-bottom">
       <p>© 2026 3D Design Develop Deploy. All rights reserved.</p>
-      <p style={{ color: "var(--grey-500)" }}>Built with ❤️ by 3D³ · Privacy Policy · Terms of Service</p>
+      <p style={{ color: "var(--grey-500)" }}>Built by 3D³ · Privacy Policy · Terms of Service</p>
     </div>
   </footer>
 );
