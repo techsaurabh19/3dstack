@@ -949,12 +949,34 @@ const BlogPage = () => (
 );
 
 /* ─── CONTACT PAGE ────────────────────────────────────────── */
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/mkjweoqd";
+
 const ContactPage = () => {
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", service: "", budget: "", message: "" });
 
   const handle = (e) => setForm({ ...form, [e.target.name]: e.target.value });
-  const submit = (e) => { e.preventDefault(); setSubmitted(true); };
+
+  const submit = async (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    setError(false);
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body: new FormData(e.target),
+      });
+      if (res.ok) setSubmitted(true);
+      else setError(true);
+    } catch {
+      setError(true);
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div className="page" style={{ paddingTop: 70 }}>
@@ -1012,8 +1034,13 @@ const ContactPage = () => {
                   <label>Tell us about your project *</label>
                   <textarea name="message" value={form.message} onChange={handle} placeholder="What are you building? What's the timeline? Any specific requirements?" required />
                 </div>
-                <button className="btn-primary" type="submit" style={{ width: "100%", padding: "16px" }}>
-                  Send Message & Start Project →
+                {error && (
+                  <p style={{ color: "var(--orange)", fontSize: "0.85rem" }}>
+                    Something went wrong sending your message. Please try again or email support@3dstack.in directly.
+                  </p>
+                )}
+                <button className="btn-primary" type="submit" disabled={submitting} style={{ width: "100%", padding: "16px", opacity: submitting ? 0.7 : 1, cursor: submitting ? "not-allowed" : "pointer" }}>
+                  {submitting ? "Sending…" : "Send Message & Start Project →"}
                 </button>
               </form>
             )}
