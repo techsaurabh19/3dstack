@@ -1065,7 +1065,7 @@ const ContactPage = () => {
             <div className="card" style={{ marginTop: 8 }}>
               <h3 style={{ marginBottom: 16, fontSize: "1rem" }}>🗓 Book a Free Strategy Call</h3>
               <p style={{ marginBottom: 20 }}>30 minutes. No fluff. We'll map your idea to a delivery plan.</p>
-              <button className="btn-outline" style={{ width: "100%" }}>Book on Calendly →</button>
+              <a href="https://calendly.com/skmathuria19/30min" target="_blank" rel="noopener noreferrer" className="btn-outline" style={{ width: "100%", textDecoration: "none", display: "inline-flex", alignItems: "center", justifyContent: "center" }}>Book on Calendly →</a>
             </div>
           </div>
         </div>
