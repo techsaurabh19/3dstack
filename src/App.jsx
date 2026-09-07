@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { BrowserRouter, Routes, Route, Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link, Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
 
 /* ─── GLOBAL STYLES ─────────────────────────────────────────── */
 const GlobalStyle = () => (
@@ -919,13 +919,155 @@ const ProcessPage = () => (
 );
 
 /* ─── BLOG PAGE ───────────────────────────────────────────── */
-const posts = [
-  { tag: "DevOps", icon: "🐳", title: "Kubernetes in Production: 10 Things We Wish We Knew Earlier", excerpt: "Hard-won lessons from running 20+ K8s clusters in production — from RBAC gotchas to HPA tuning.", author: "3D³ Team", date: "Apr 28, 2026", read: "8 min read" },
-  { tag: "Design", icon: "🎨", title: "Why Your SaaS Dashboard Needs a Design System (Not Just Figma Screens)", excerpt: "The difference between a component library and a design system — and why it matters at scale.", author: "3D³ Team", date: "Apr 15, 2026", read: "6 min read" },
-  { tag: "Cloud", icon: "☁️", title: "Terraform vs. Pulumi in 2026: Which IaC Tool Should You Choose?", excerpt: "An honest comparison from engineers who've used both in production environments.", author: "3D³ Team", date: "Mar 30, 2026", read: "10 min read" },
-  { tag: "Development", icon: "⚡", title: "The API Design Decisions That Will Haunt You in 18 Months", excerpt: "Avoid these common REST API mistakes before they become breaking changes your clients hate.", author: "3D³ Team", date: "Mar 12, 2026", read: "7 min read" },
-  { tag: "DevOps", icon: "🔒", title: "Secrets Management: The Right Way to Handle Credentials in CI/CD", excerpt: "A deep dive into Vault, AWS SSM, and GitHub OIDC — and when to use each.", author: "3D³ Team", date: "Feb 28, 2026", read: "9 min read" },
-  { tag: "Startup", icon: "🚀", title: "From Idea to MVP in 6 Weeks: Our Actual Process", excerpt: "The exact playbook we use to take a product brief to a production deployment in six weeks.", author: "3D³ Team", date: "Feb 10, 2026", read: "12 min read" },
+export const BLOG_POSTS = [
+  {
+    slug: "kubernetes-production-lessons",
+    tag: "DevOps", icon: "🐳",
+    title: "Kubernetes in Production: 10 Things We Wish We Knew Earlier",
+    excerpt: "Hard-won lessons from running 20+ K8s clusters in production — from RBAC gotchas to HPA tuning.",
+    author: "3D³ Team", date: "Apr 28, 2026", read: "8 min read",
+    body: [
+      { type: "p", text: "Running a handful of Kubernetes clusters in a workshop is nothing like running twenty of them across client environments with real traffic, real on-call rotations, and real 2am pages. Here are the lessons that cost us the most time to learn — so you don't have to relearn them the hard way." },
+      { type: "h3", text: "1. RBAC will bite you before networking does" },
+      { type: "p", text: "Most teams over-invest in NetworkPolicy tuning early and under-invest in RBAC. In practice, the incidents that actually hurt come from over-permissioned service accounts — a CI pipeline with cluster-admin, a debugging pod left with a token that can read every Secret in the namespace. Scope roles per-namespace and per-workload from day one; retrofitting RBAC onto a live cluster is miserable." },
+      { type: "h3", text: "2. Set resource requests before you ever touch autoscaling" },
+      { type: "p", text: "The Horizontal Pod Autoscaler and cluster autoscaler are only as good as the requests/limits you feed them. We've seen HPA configs that looked perfect on paper thrash uselessly because requests were left at defaults. Get requests right first — based on actual observed usage, not guesses — then layer autoscaling on top." },
+      { type: "h3", text: "3. Liveness probes without readiness probes cause cascading restarts" },
+      { type: "p", text: "A liveness probe that fires during a slow dependency call will kill and restart a perfectly healthy pod, often making an already-degraded service worse. Always pair liveness with a readiness probe, and make liveness checks dumb and cheap — they should only catch true deadlocks, not slowness." },
+      { type: "h3", text: "4. PodDisruptionBudgets save you during node upgrades, not just deploys" },
+      { type: "p", text: "Teams usually add PDBs to protect against rolling deploys and forget they're just as critical during node drains for cluster upgrades or spot-instance reclamation. No PDB means an upgrade can take your whole service down at once instead of gradually." },
+      { type: "h3", text: "5. etcd performance is your ceiling, not compute" },
+      { type: "p", text: "Clusters that feel sluggish are rarely CPU-starved — they're usually waiting on etcd. Watch etcd disk latency and object counts (especially Events and CRDs) before you reach for bigger node pools." },
+      { type: "h3", text: "6. Namespace-per-environment beats cluster-per-environment until it doesn't" },
+      { type: "p", text: "Separate clusters per environment cost more but buy real isolation — a noisy-neighbor incident or a bad CRD install in staging can't touch production. We move teams to cluster-per-environment the moment compliance or blast-radius requirements show up; before that, namespaces are fine." },
+      { type: "h3", text: "7. HPA on custom metrics needs a metrics pipeline you actually trust" },
+      { type: "p", text: "Scaling on CPU is easy. Scaling on queue depth or request latency requires a metrics pipeline (usually Prometheus + an adapter) that itself needs to be highly available — if your metrics source flaps, your autoscaler flaps with it." },
+      { type: "h3", text: "8. Image pull policy and registry rate limits will surprise you at the worst time" },
+      { type: "p", text: "`imagePullPolicy: Always` on every deploy across a large node pool can hit registry rate limits during a mass rollout or node replacement event. Pin digests where you can and understand your registry's throttling behavior before you scale past a few dozen nodes." },
+      { type: "h3", text: "9. Observability has to include the control plane, not just workloads" },
+      { type: "p", text: "It's easy to instrument application pods and forget the control plane itself — API server latency, scheduler queue depth, controller-manager errors. When something feels globally slow, that's usually where the answer is." },
+      { type: "h3", text: "10. Your upgrade strategy is a design decision, not an afterthought" },
+      { type: "p", text: "Decide up front whether you're doing in-place minor upgrades, blue-green cluster replacement, or something in between — and rehearse it in a non-production cluster. The teams that get burned are the ones treating the first real upgrade as the rehearsal." },
+      { type: "p", text: "None of this is exotic — it's just what breaks first when a cluster goes from a demo to a system other people depend on. If you're heading into that transition, our Kubernetes & Containerization service page has the checklist we actually run engagements against." },
+    ],
+  },
+  {
+    slug: "saas-dashboard-design-system",
+    tag: "Design", icon: "🎨",
+    title: "Why Your SaaS Dashboard Needs a Design System (Not Just Figma Screens)",
+    excerpt: "The difference between a component library and a design system — and why it matters at scale.",
+    author: "3D³ Team", date: "Apr 15, 2026", read: "6 min read",
+    body: [
+      { type: "p", text: "Almost every SaaS product we're brought in to redesign has the same starting point: a beautiful set of Figma screens, and an engineering team quietly rebuilding the same button component slightly differently on every page. That gap — between what design ships and what a design system actually is — is where most product consistency problems live." },
+      { type: "h2", text: "A component library is not a design system" },
+      { type: "p", text: "A component library is an inventory: buttons, inputs, cards, modals. A design system is the set of rules that decides when each of those gets used, what states they support, and how they compose — spacing scales, type hierarchy, color tokens tied to meaning (not just hex values), and accessibility baked in at the component level rather than patched on per screen." },
+      { type: "h2", text: "Where teams feel the pain first" },
+      { type: "p", text: "It's rarely the homepage that reveals the gap — it's the fortieth settings page, built by the third engineer to touch that part of the app, none of whom talked to each other. Suddenly there are four slightly different dropdown styles, three different error-state patterns, and a support queue full of 'this looks broken' tickets that are really consistency bugs." },
+      { type: "h2", text: "Tokens are the part everyone skips" },
+      { type: "p", text: "Color tokens, spacing tokens, and type tokens are the least glamorous part of a design system and the highest-leverage. When 'danger' is a token instead of a hardcoded red hex value, a rebrand or a dark-mode launch is a config change instead of a multi-sprint migration. We've seen six-week rebrand timelines shrink to three days once tokens existed." },
+      { type: "h2", text: "Documentation is the product, not a byproduct" },
+      { type: "p", text: "A design system that lives only in Figma with no engineering-facing documentation degrades within two quarters — engineers under deadline pressure will always reach for the fastest path, which is copy-pasting an existing component and tweaking it. Usage guidelines, do/don't examples, and accessibility notes need to live next to the code, not in a separate design tool nobody outside design opens." },
+      { type: "h2", text: "When it's worth the investment" },
+      { type: "p", text: "If you're a five-screen MVP, skip this — use an existing library like shadcn or MUI and move fast. The inflection point is usually around 15-20 screens or your second designer/engineer pair working on the UI in parallel. That's when inconsistency starts compounding faster than any team can manually catch it in review." },
+      { type: "p", text: "We build design systems as part of our UI/UX & Product Design engagements specifically so the tokens and components ship in lockstep with the engineering build — not as a separate deliverable that goes stale the day after handoff." },
+    ],
+  },
+  {
+    slug: "terraform-vs-pulumi-2026",
+    tag: "Cloud", icon: "☁️",
+    title: "Terraform vs. Pulumi in 2026: Which IaC Tool Should You Choose?",
+    excerpt: "An honest comparison from engineers who've used both in production environments.",
+    author: "3D³ Team", date: "Mar 30, 2026", read: "10 min read",
+    body: [
+      { type: "p", text: "We run both Terraform and Pulumi in production across different client environments, and the honest answer to 'which is better' is: it depends on your team's existing skills and how much you value HCL's constraints versus a general-purpose language's flexibility. Here's how we actually decide." },
+      { type: "h2", text: "State management: functionally similar, operationally different" },
+      { type: "p", text: "Both tools track infrastructure state and support remote backends with locking. Terraform's state format and CLI (plan/apply) are more battle-tested and better understood by a wider hiring pool. Pulumi's state model is conceptually the same but its debugging tools around drift detection have caught up meaningfully in the last two years." },
+      { type: "h2", text: "The real differentiator: HCL vs. a real programming language" },
+      { type: "p", text: "Terraform's HCL is declarative and intentionally limited — that's a feature, not a bug, for teams who want infrastructure code to be readable by anyone, including auditors and less senior engineers. Pulumi lets you write infrastructure in TypeScript, Python, or Go, which means real loops, real conditionals, and real unit tests — powerful, but it also means an engineer can write infrastructure code that's clever in ways that make it harder for the next person to reason about." },
+      { type: "h2", text: "Module ecosystem still favors Terraform" },
+      { type: "p", text: "The Terraform Registry has a significantly larger set of mature, community-maintained modules for common patterns (VPC setups, EKS clusters, RDS instances) than Pulumi's package ecosystem. For teams building on well-trodden cloud patterns, that maturity gap saves real engineering time." },
+      { type: "h2", text: "Where Pulumi wins outright" },
+      { type: "p", text: "If your infrastructure logic needs genuine computation — dynamically generating dozens of near-identical resources based on a config file, sharing validation logic between your app code and your infra code, or writing real unit tests for infrastructure logic — Pulumi's use of a general-purpose language is a legitimate advantage that HCL's `for_each` and `dynamic` blocks can only approximate." },
+      { type: "h2", text: "Our actual recommendation" },
+      { type: "p", text: "Default to Terraform. Its constraints are usually a feature for team-wide consistency, its hiring pool is larger, and its module ecosystem will save you time on standard cloud patterns. Reach for Pulumi specifically when your infrastructure requirements are genuinely programmatic — multi-tenant platforms generating per-customer infrastructure, or teams that want infra and app code sharing a language and test suite. Don't choose Pulumi just because TypeScript feels more familiar than HCL; that preference alone isn't worth giving up the ecosystem maturity." },
+      { type: "p", text: "We help teams design and implement both — see our DevOps, Cloud & Kubernetes services if you're weighing this decision for an upcoming build." },
+    ],
+  },
+  {
+    slug: "api-design-mistakes",
+    tag: "Development", icon: "⚡",
+    title: "The API Design Decisions That Will Haunt You in 18 Months",
+    excerpt: "Avoid these common REST API mistakes before they become breaking changes your clients hate.",
+    author: "3D³ Team", date: "Mar 12, 2026", read: "7 min read",
+    body: [
+      { type: "p", text: "Most API design mistakes don't hurt on day one — they hurt eighteen months later, when you have real external consumers and every 'fix' is now a breaking change. Here are the decisions we see teams regret most, almost always too late to cheaply undo." },
+      { type: "h3", text: "Returning bare arrays instead of enveloped responses" },
+      { type: "p", text: "`GET /users` returning a raw JSON array seems clean until you need to add pagination metadata, a total count, or a cursor — and now every client parsing a top-level array breaks. Envelope your list responses from day one: `{ data: [...], meta: { total, cursor } }` costs nothing early and saves a breaking version bump later." },
+      { type: "h3", text: "No API versioning strategy at all" },
+      { type: "p", text: "'We'll version it when we need to' means you'll be retrofitting version headers or URL prefixes onto live traffic with real consumers who didn't sign up for a migration. Decide your versioning approach — URL path, header, or content negotiation — before your first external consumer, even if v1 is the only version that will ever exist." },
+      { type: "h3", text: "Leaking database schema directly into response shapes" },
+      { type: "p", text: "Serializing your ORM models directly is fast to build and creates a permanent coupling between your database schema and your public contract. A column rename that should take ten minutes now requires a deprecation cycle because it's technically a breaking API change." },
+      { type: "h3", text: "Inconsistent error shapes across endpoints" },
+      { type: "p", text: "If `/orders` returns `{ error: \"message\" }` and `/users` returns `{ errors: [{ code, detail }] }`, every client integration has to special-case error handling per endpoint. Pick one error envelope shape — ideally following an existing convention like RFC 7807 — and enforce it at the framework level so individual endpoints can't drift." },
+      { type: "h3", text: "Synchronous endpoints for what should be async operations" },
+      { type: "p", text: "Long-running operations (report generation, bulk imports, video processing) forced into a synchronous request/response cycle eventually hit timeout walls as data volume grows. Model these as async from the start — return a job ID and a status endpoint — even if the first implementation just does the work inline before responding." },
+      { type: "h3", text: "No rate-limit headers or documented limits" },
+      { type: "p", text: "Silently throttling or rejecting requests without `X-RateLimit-*` headers means every integrator finds your limits by hitting them in production, usually during their busiest traffic period. Publish limits and surface them in headers from the first external release." },
+      { type: "p", text: "The common thread: almost none of these cost meaningfully more time to do right the first time. They cost real time — and real client goodwill — to fix after the API has external consumers depending on the shape you shipped. If you're scoping a new API, our Web, API & Mobile Dev team can review the contract before it ships, not after." },
+    ],
+  },
+  {
+    slug: "secrets-management-cicd",
+    tag: "DevOps", icon: "🔒",
+    title: "Secrets Management: The Right Way to Handle Credentials in CI/CD",
+    excerpt: "A deep dive into Vault, AWS SSM, and GitHub OIDC — and when to use each.",
+    author: "3D³ Team", date: "Feb 28, 2026", read: "9 min read",
+    body: [
+      { type: "p", text: "Long-lived static credentials sitting in CI environment variables are still, by far, the most common secrets-management mistake we find during security reviews — and they're also the easiest to fix. Here's how we think about picking the right approach for a given pipeline." },
+      { type: "h2", text: "The baseline: stop storing long-lived credentials at all" },
+      { type: "p", text: "The single highest-leverage change most teams can make is eliminating long-lived static credentials from CI entirely in favor of short-lived, dynamically issued tokens scoped to exactly what a given job needs. Everything below is a variation on that theme." },
+      { type: "h2", text: "GitHub Actions OIDC: the right default for cloud deploys" },
+      { type: "p", text: "If your CI runs in GitHub Actions and deploys to AWS, Azure, or GCP, OIDC federation should be your default. Instead of storing a static cloud credential as a repo secret, your workflow exchanges a short-lived OIDC token for temporary cloud credentials scoped to a specific role, with no long-lived secret to leak, rotate, or accidentally log." },
+      { type: "h2", text: "AWS SSM Parameter Store / Secrets Manager: for application runtime secrets" },
+      { type: "p", text: "For secrets your running application needs — database passwords, third-party API keys — SSM Parameter Store (with SecureString) or Secrets Manager are the right call when you're already AWS-native. Secrets Manager adds automatic rotation for supported services (RDS, in particular) which SSM doesn't natively provide." },
+      { type: "h2", text: "HashiCorp Vault: for multi-cloud or dynamic-secret requirements" },
+      { type: "p", text: "Vault earns its operational complexity when you need dynamic secrets — database credentials generated per-request with automatic expiry, not static passwords rotated on a schedule — or when you're managing secrets across multiple clouds and don't want per-provider tooling. For a single-cloud shop, Vault's operational overhead often isn't worth it over native tooling." },
+      { type: "h2", text: "The mistake we see even security-conscious teams make" },
+      { type: "p", text: "Teams that get the initial setup right — OIDC, Secrets Manager, Vault, whatever fits — often forget to close the loop on old credentials. A migration to short-lived tokens that leaves the previous static credential active 'just in case' isn't a completed migration; it's an active vulnerability with a false sense of security layered on top." },
+      { type: "h2", text: "A practical checklist" },
+      { type: "list", items: [
+        "No static cloud credentials in CI — use OIDC federation wherever the CI platform supports it",
+        "Runtime application secrets live in a managed secret store, never in environment files committed to a repo",
+        "Every secret has an owner and a rotation policy, even if rotation is manual",
+        "Old credentials are actually revoked, not just replaced, once a migration ships",
+        "CI logs are audited for accidental secret exposure — most leaks happen via debug output, not the secret store itself",
+      ] },
+      { type: "p", text: "We build this into every CI/CD pipeline we set up as part of our DevOps & CI/CD engagements — it's cheaper to design in from the first pipeline than to retrofit once a hundred jobs already depend on the old pattern." },
+    ],
+  },
+  {
+    slug: "idea-to-mvp-six-weeks",
+    tag: "Startup", icon: "🚀",
+    title: "From Idea to MVP in 6 Weeks: Our Actual Process",
+    excerpt: "The exact playbook we use to take a product brief to a production deployment in six weeks.",
+    author: "3D³ Team", date: "Feb 10, 2026", read: "12 min read",
+    body: [
+      { type: "p", text: "Six weeks from a product brief to a production deployment sounds aggressive until you see the breakdown. It's not about moving fast and breaking things — it's about ruthlessly scoping what actually needs to exist for a real first version, and refusing to let the wrong things eat the timeline." },
+      { type: "h2", text: "Week 1: Discovery and scope-cutting" },
+      { type: "p", text: "The first week is spent doing less than founders expect — mostly saying no. We map the core user journey that has to work end-to-end, and explicitly list every feature that sounds important but isn't required to validate the core hypothesis. This list becomes the v1.1 backlog, not the MVP scope." },
+      { type: "h2", text: "Week 2: Design system and architecture in parallel" },
+      { type: "p", text: "Design and engineering start simultaneously, not sequentially. Design produces a lightweight token set and the core screens; engineering stands up the architecture — auth, database schema, CI/CD skeleton, hosting — so that by week 3, design handoff doesn't stall waiting for infrastructure to exist." },
+      { type: "h2", text: "Weeks 3–4: Core build" },
+      { type: "p", text: "This is where most of the calendar goes, and it's deliberately unglamorous: the core user journey, built end-to-end, with real data and real auth from day one — never a mocked-data prototype that gets rebuilt later. Daily standups catch scope drift before it costs a sprint." },
+      { type: "h2", text: "Week 5: Hardening, not new features" },
+      { type: "p", text: "Week 5 is a hard rule, not a suggestion: no new features. Error states, empty states, loading states, basic monitoring, and a first pass of real user testing with 5-10 target users. This is the week that determines whether launch week is calm or chaotic." },
+      { type: "h2", text: "Week 6: Deploy, monitor, hand off" },
+      { type: "p", text: "Production deployment with observability already wired in — not bolted on after something breaks — plus a short handoff period where the founding team can ship their own small changes with support on standby. An MVP that the founder can't safely iterate on alone isn't actually done." },
+      { type: "h2", text: "What makes six weeks realistic instead of a sales pitch" },
+      { type: "p", text: "The honest answer: ruthless scope discipline in week 1, and refusing to let 'nice to have' features regain their spot on the board once cut. Almost every MVP timeline that blows past its estimate does so because scope crept back in during weeks 3-4, not because the engineering was slower than expected." },
+      { type: "p", text: "If you're scoping a build like this, our Process page walks through the full delivery framework, and our Pricing page has the starting ranges for engagements at this scope." },
+    ],
+  },
 ];
 
 const BlogPage = () => (
@@ -937,8 +1079,8 @@ const BlogPage = () => (
     </section>
     <section style={{ paddingTop: 0 }}>
       <div className="grid-3">
-        {posts.map((p) => (
-          <div className="card blog-card" key={p.title} style={{ padding: 0 }}>
+        {BLOG_POSTS.map((p) => (
+          <Link to={`/blog/${p.slug}`} className="card blog-card" key={p.slug} style={{ padding: 0, textDecoration: "none", color: "inherit" }}>
             <div className="blog-img">{p.icon}</div>
             <div className="blog-body">
               <span className="blog-tag">{p.tag}</span>
@@ -949,7 +1091,7 @@ const BlogPage = () => (
                 <span>⏱ {p.read}</span>
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
       <div style={{ textAlign: "center", marginTop: 48 }}>
@@ -962,6 +1104,64 @@ const BlogPage = () => (
     </section>
   </div>
 );
+
+/* ─── BLOG POST PAGE ──────────────────────────────────────── */
+const renderBlock = (block, i) => {
+  if (block.type === "h2") return <h2 key={i} style={{ fontFamily: "Syne", fontWeight: 800, fontSize: "1.4rem", margin: "36px 0 14px" }}>{block.text}</h2>;
+  if (block.type === "h3") return <h3 key={i} style={{ fontFamily: "Syne", fontWeight: 700, fontSize: "1.15rem", margin: "28px 0 10px" }}>{block.text}</h3>;
+  if (block.type === "list") {
+    return (
+      <ul key={i} style={{ margin: "0 0 18px", paddingLeft: 22, color: "var(--grey-300)", lineHeight: 1.8 }}>
+        {block.items.map((item, j) => <li key={j}>{item}</li>)}
+      </ul>
+    );
+  }
+  return <p key={i} style={{ margin: "0 0 18px", color: "var(--grey-300)", lineHeight: 1.8, fontSize: "1.02rem" }}>{block.text}</p>;
+};
+
+const BlogPostPage = () => {
+  const { slug } = useParams();
+  const post = BLOG_POSTS.find((p) => p.slug === slug);
+
+  if (!post) {
+    return (
+      <div className="page" style={{ paddingTop: 70 }}>
+        <section>
+          <h1 className="section-title">Post not found</h1>
+          <p className="section-sub">This article may have been moved or removed.</p>
+          <Link to="/blog" className="btn-primary" style={{ display: "inline-flex", marginTop: 16 }}>← Back to Blog</Link>
+        </section>
+      </div>
+    );
+  }
+
+  return (
+    <div className="page" style={{ paddingTop: 70 }}>
+      <article>
+        <section style={{ paddingBottom: 0 }}>
+          <Link to="/blog" style={{ color: "var(--orange)", fontWeight: 700, fontSize: "0.9rem", textDecoration: "none" }}>← Back to Blog</Link>
+          <div className="section-label" style={{ marginTop: 20 }}>{post.tag}</div>
+          <h1 className="section-title" style={{ maxWidth: 780 }}>{post.title}</h1>
+          <div className="blog-meta" style={{ marginTop: 16 }}>
+            <span>{post.author}</span>
+            <span>📅 {post.date}</span>
+            <span>⏱ {post.read}</span>
+          </div>
+        </section>
+        <section style={{ maxWidth: 780 }}>
+          {post.body.map(renderBlock)}
+        </section>
+        <div className="cta-band">
+          <h2>Ready to build something <span style={{ color: "var(--orange)" }}>exceptional?</span></h2>
+          <p>Tell us about your project — we'll respond within 24 hours.</p>
+          <div className="cta-band-actions">
+            <Link to="/contact" className="btn-primary">Start a Conversation</Link>
+          </div>
+        </div>
+      </article>
+    </div>
+  );
+};
 
 /* ─── CONTACT PAGE ────────────────────────────────────────── */
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/mkjweoqd";
@@ -1419,6 +1619,13 @@ export const PAGE_META = {
   },
 };
 
+BLOG_POSTS.forEach((post) => {
+  PAGE_META[`/blog/${post.slug}`] = {
+    title: `${post.title} | 3D³ Blog`,
+    description: post.excerpt,
+  };
+});
+
 const SITE_URL = "https://3dstack.in";
 
 const setMetaTag = (selector, attr, attrValue, content) => {
@@ -1473,6 +1680,7 @@ export const AppShell = () => (
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/process" element={<ProcessPage />} />
         <Route path="/blog" element={<BlogPage />} />
+        <Route path="/blog/:slug" element={<BlogPostPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/case-studies" element={<CaseStudiesPage />} />
         <Route path="/documentation" element={<DocumentationPage />} />

@@ -36,6 +36,36 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://3dstack.in/blog/kubernetes-production-lessons</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://3dstack.in/blog/saas-dashboard-design-system</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://3dstack.in/blog/terraform-vs-pulumi-2026</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://3dstack.in/blog/api-design-mistakes</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://3dstack.in/blog/secrets-management-cicd</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://3dstack.in/blog/idea-to-mvp-six-weeks</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://3dstack.in/documentation</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>

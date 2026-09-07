@@ -20,8 +20,9 @@ const replaceTag = (html, regex, replacement) => {
 };
 
 async function main() {
-  const { render, PAGE_META, FAQ_ITEMS } = await import(ssrEntry);
+  const { render, PAGE_META, FAQ_ITEMS, BLOG_POSTS } = await import(ssrEntry);
   const template = fs.readFileSync(path.join(distDir, "index.html"), "utf-8");
+  const blogPostBySlug = new Map((BLOG_POSTS || []).map((p) => [`/blog/${p.slug}`, p]));
 
   for (const [routePath, meta] of Object.entries(PAGE_META)) {
     const canonicalUrl = `${SITE_URL}${routePath === "/" ? "" : routePath}`;
@@ -66,6 +67,24 @@ async function main() {
       /<meta name="twitter:description" content="[^"]*"\s*\/>/,
       `<meta name="twitter:description" content="${description}" />`
     );
+
+    const blogPost = blogPostBySlug.get(routePath);
+    if (blogPost) {
+      const articleSchema = {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        headline: blogPost.title,
+        description: blogPost.excerpt,
+        author: { "@type": "Organization", name: "3D³" },
+        publisher: { "@type": "Organization", name: "3D³", logo: { "@type": "ImageObject", url: `${SITE_URL}/favicon.svg` } },
+        datePublished: new Date(blogPost.date).toISOString().slice(0, 10),
+        mainEntityOfPage: canonicalUrl,
+      };
+      html = html.replace(
+        "</head>",
+        `<script type="application/ld+json">${JSON.stringify(articleSchema)}</script></head>`
+      );
+    }
 
     if (routePath === "/documentation" && Array.isArray(FAQ_ITEMS)) {
       const faqSchema = {
