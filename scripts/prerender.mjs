@@ -77,7 +77,7 @@ async function main() {
         headline: blogPost.title,
         description: blogPost.excerpt,
         author: { "@type": "Organization", name: "3D³" },
-        publisher: { "@type": "Organization", name: "3D³", logo: { "@type": "ImageObject", url: `${SITE_URL}/favicon.svg` } },
+        publisher: { "@type": "Organization", name: "3D³", logo: { "@type": "ImageObject", url: `${SITE_URL}/logo.png` } },
         datePublished: new Date(blogPost.date).toISOString().slice(0, 10),
         mainEntityOfPage: canonicalUrl,
       };

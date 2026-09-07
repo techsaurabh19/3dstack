@@ -415,25 +415,13 @@ const GlobalStyle = () => (
 
 /* ─── LOGO (text wordmark) ─── */
 const LogoImg = ({ size = 36 }) => (
-  <span
-    aria-label="3D Design Develop Deploy Logo"
-    style={{
-      width: size,
-      height: size,
-      minWidth: size,
-      borderRadius: 6,
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      fontFamily: "'Syne', sans-serif",
-      fontWeight: 800,
-      fontSize: size * 0.42,
-      color: "#fff",
-      background: "linear-gradient(135deg, var(--orange), var(--blue-sky))",
-    }}
-  >
-    3D
-  </span>
+  <img
+    src="/logo.png"
+    alt="3D Design Develop Deploy logo"
+    width={size}
+    height={size}
+    style={{ width: size, height: size, minWidth: size, objectFit: "contain" }}
+  />
 );
 
 /* ─── NAV ─────────────────────────────────────────────────── */

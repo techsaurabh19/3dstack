@@ -2,7 +2,9 @@
   "name": "3D Design Develop Deploy",
   "short_name": "3D³",
   "icons": [
-    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+    { "src": "/favicon-32.png", "sizes": "32x32", "type": "image/png" },
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "/logo.png", "sizes": "512x512", "type": "image/png" }
   ],
   "theme_color": "#0D1B35",
   "background_color": "#0D1B35",
