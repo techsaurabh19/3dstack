@@ -789,6 +789,241 @@ const services = [
   },
 ];
 
+/* ─── SERVICE DETAIL PAGES ────────────────────────────────── */
+export const SERVICE_PAGES = [
+  {
+    slug: "ui-ux-design",
+    icon: "🎨",
+    title: "UI/UX Design Services",
+    tagline: "Interfaces people enjoy using — and businesses can measure.",
+    metaDescription: "UI/UX design services: user research, wireframes, interactive prototypes, and accessibility-first design systems, handed off ready to build.",
+    benefits: ["User research & personas", "Wireframes & interactive prototypes", "Design system creation", "Accessibility-first (WCAG 2.1)", "Handoff-ready Figma files"],
+    cases: ["SaaS dashboards", "Mobile apps", "E-commerce storefronts", "Admin portals"],
+    body: [
+      { type: "p", text: "Good UI/UX design isn't about making things look polished — it's about removing every point of friction between a user and the outcome they came for. We design interfaces the same way we build software: research first, iterate fast, and validate with real users before a single line of production code depends on the layout." },
+      { type: "h2", text: "What's included" },
+      { type: "list", items: ["User research & personas", "Wireframes & interactive prototypes", "Design system creation", "Accessibility-first design (WCAG 2.1)", "Handoff-ready Figma files with documented components"] },
+      { type: "h2", text: "How we run a design engagement" },
+      { type: "p", text: "We start with lightweight research — competitive analysis, existing user feedback, and a handful of stakeholder interviews — before any pixels move. From there we go straight to interactive prototypes rather than static mockups, because clickable flows surface usability problems that static screens hide. Every design ships with a token-based design system (color, spacing, type) so engineering can build it without guesswork, and so future screens stay consistent without a designer re-reviewing every one." },
+      { type: "h2", text: "Who this is for" },
+      { type: "p", text: "Teams shipping a new product who want to validate the experience before investing in a full build, and teams with an existing product where usability — not features — is the thing holding back conversion or retention. Common engagements: SaaS dashboards, mobile apps, e-commerce storefronts, and internal admin portals." },
+      { type: "h2", text: "Common questions" },
+      { type: "h3", text: "Do we get the actual Figma files, or just a walkthrough?" },
+      { type: "p", text: "You get full ownership of the Figma project, organized as a documented design system component library — not a flat set of screens." },
+      { type: "h3", text: "Is this just visual design, or do you do research too?" },
+      { type: "p", text: "Research is built into every engagement by default — personas, competitive analysis, and usability testing with real target users, not just visual polish." },
+      { type: "h3", text: "How long does a typical UI/UX engagement take?" },
+      { type: "p", text: "A focused product redesign is usually 3-5 weeks; a full design system for a larger platform runs 6-8 weeks. See our Pricing page for starting ranges." },
+    ],
+    faqs: [
+      { q: "Do we get the actual Figma files, or just a walkthrough?", a: "You get full ownership of the Figma project, organized as a documented design system component library — not a flat set of screens." },
+      { q: "Is this just visual design, or do you do research too?", a: "Research is built into every engagement by default — personas, competitive analysis, and usability testing with real target users, not just visual polish." },
+      { q: "How long does a typical UI/UX engagement take?", a: "A focused product redesign is usually 3-5 weeks; a full design system for a larger platform runs 6-8 weeks." },
+    ],
+  },
+  {
+    slug: "web-development",
+    icon: "🌐",
+    title: "Web Development Services",
+    tagline: "Fast, SEO-ready web applications built on modern stacks.",
+    metaDescription: "Web development services: React, Next.js, and Node.js applications built for performance, SEO, and scale — from landing pages to full platforms.",
+    benefits: ["React / Next.js / Vue frontends", "Node.js, Python, Go backends", "REST & GraphQL APIs", "CMS integration (Sanity, Contentful)", "Performance & Core Web Vitals"],
+    cases: ["SaaS platforms", "Company websites", "Marketplaces", "Progressive Web Apps"],
+    body: [
+      { type: "p", text: "A website that looks right in a demo and a web application that holds up under real traffic, real SEO requirements, and real feature growth are two different engineering problems. We build for the second one from day one — the same architecture decisions that make a site fast to ship also make it fast to load and easy for search engines to crawl." },
+      { type: "h2", text: "What's included" },
+      { type: "list", items: ["React / Next.js / Vue frontends", "Node.js, Python, or Go backends", "REST & GraphQL API design", "CMS integration (Sanity, Contentful, or headless WordPress)", "Performance tuning against Core Web Vitals"] },
+      { type: "h2", text: "How we build" },
+      { type: "p", text: "Every project starts with the same non-negotiables regardless of stack: server-rendered or prerendered pages for anything that needs to be indexed (we don't ship pure client-side SPAs for content that matters for search — we learned that lesson rebuilding our own site), CI from the first commit, and a performance budget that's checked in review, not discovered after launch. Backend architecture is chosen based on your team's existing skills and hosting constraints, not our preference." },
+      { type: "h2", text: "Who this is for" },
+      { type: "p", text: "Startups building a first product, companies replacing an aging or unmaintainable codebase, and teams that need a marketing site and application to share design language and infrastructure instead of living as two disconnected projects." },
+      { type: "h2", text: "Common questions" },
+      { type: "h3", text: "Can you take over an existing codebase instead of starting fresh?" },
+      { type: "p", text: "Yes — most of our engagements start with a codebase audit, and a rewrite is only recommended when it's genuinely cheaper than incremental improvement." },
+      { type: "h3", text: "Do you handle SEO as part of development, or is that separate?" },
+      { type: "p", text: "It's built in by default: server rendering or static generation for indexable pages, structured data, sitemaps, and Core Web Vitals are part of the base build, not an add-on." },
+      { type: "h3", text: "What if we need mobile apps alongside the web app?" },
+      { type: "p", text: "We pair this with our Mobile App Development service and share API and auth layers across both, rather than building two disconnected backends." },
+    ],
+    faqs: [
+      { q: "Can you take over an existing codebase instead of starting fresh?", a: "Yes — most engagements start with a codebase audit, and a rewrite is only recommended when it's genuinely cheaper than incremental improvement." },
+      { q: "Do you handle SEO as part of development, or is that separate?", a: "It's built in by default: server rendering or static generation for indexable pages, structured data, sitemaps, and Core Web Vitals are part of the base build." },
+      { q: "What if we need mobile apps alongside the web app?", a: "We pair this with our Mobile App Development service and share API and auth layers across both." },
+    ],
+  },
+  {
+    slug: "mobile-app-development",
+    icon: "📱",
+    title: "Mobile App Development Services",
+    tagline: "Cross-platform and native apps that feel like native apps.",
+    metaDescription: "Mobile app development services: React Native and Flutter apps for iOS and Android, with app store submission and backend API support.",
+    benefits: ["React Native / Flutter", "iOS & Android deployment", "Push notifications & offline support", "App Store optimization", "In-app analytics"],
+    cases: ["Consumer apps", "Enterprise mobile tools", "IoT dashboards", "Healthcare apps"],
+    body: [
+      { type: "p", text: "Most mobile apps don't need two separate native codebases — but some genuinely do. We help you make that call honestly before writing code, then build for it, rather than defaulting to whichever framework is fastest for us to staff." },
+      { type: "h2", text: "What's included" },
+      { type: "list", items: ["React Native or Flutter cross-platform builds", "iOS & Android store deployment", "Push notifications & offline-first support", "App Store / Play Store optimization", "In-app analytics and crash reporting"] },
+      { type: "h2", text: "How we decide cross-platform vs. native" },
+      { type: "p", text: "Cross-platform (React Native or Flutter) is the right default for most product apps — a single codebase, faster iteration, and performance that's indistinguishable from native for typical CRUD and content apps. We recommend fully native (Swift/Kotlin) only when an app is genuinely graphics- or hardware-intensive — real-time camera processing, complex animations, or deep OS-level integrations where the cross-platform bridge becomes the bottleneck." },
+      { type: "h2", text: "Who this is for" },
+      { type: "p", text: "Consumer apps needing to launch on both platforms simultaneously, enterprise teams building internal field-service or logistics tools, and IoT products that need a companion dashboard app." },
+      { type: "h2", text: "Common questions" },
+      { type: "h3", text: "React Native, Flutter, or native — which do you recommend?" },
+      { type: "p", text: "React Native or Flutter for the large majority of product apps; native only when the app is genuinely hardware- or graphics-intensive. We'll tell you honestly if native isn't worth the extra cost for your case." },
+      { type: "h3", text: "Do you handle App Store and Play Store submission?" },
+      { type: "p", text: "Yes, including store listing optimization, screenshots, and handling review rejections — submission is part of the engagement, not a separate handoff." },
+      { type: "h3", text: "Do you also build the backend, or just the app?" },
+      { type: "p", text: "Both, typically — we pair this with Web Development for the API layer so the mobile app and any web dashboard share the same backend and auth." },
+    ],
+    faqs: [
+      { q: "React Native, Flutter, or native — which do you recommend?", a: "React Native or Flutter for the large majority of product apps; native only when the app is genuinely hardware- or graphics-intensive." },
+      { q: "Do you handle App Store and Play Store submission?", a: "Yes, including store listing optimization, screenshots, and handling review rejections." },
+      { q: "Do you also build the backend, or just the app?", a: "Both, typically — paired with our Web Development service so the mobile app and any web dashboard share the same backend and auth." },
+    ],
+  },
+  {
+    slug: "devops-cicd",
+    icon: "🔁",
+    title: "DevOps & CI/CD Services",
+    tagline: "From commit to production in minutes — not deployment day dread.",
+    metaDescription: "DevOps & CI/CD services: automated pipelines, blue/green and canary deployments, and secrets management for GitHub Actions and Azure DevOps.",
+    benefits: ["GitHub Actions / Azure DevOps pipelines", "Automated testing & security scanning", "Blue/green & canary deployments", "Rollback mechanisms", "Secrets management (Vault, AWS SSM)"],
+    cases: ["Startup MVP pipelines", "Enterprise release trains", "Monorepo setups", "Multi-environment workflows"],
+    body: [
+      { type: "p", text: "If deploying your app is still a manual checklist someone runs on a Friday afternoon with their fingers crossed, that's the problem we're brought in to solve most often. A good CI/CD pipeline turns deployment from an event into a non-event." },
+      { type: "h2", text: "What's included" },
+      { type: "list", items: ["GitHub Actions or Azure DevOps pipeline design", "Automated testing & security scanning in the pipeline", "Blue/green and canary deployment strategies", "Rollback mechanisms that actually get tested", "Secrets management (Vault, AWS SSM, or OIDC federation)"] },
+      { type: "h2", text: "How we design a pipeline" },
+      { type: "p", text: "We build pipelines around one rule: a deploy that fails should fail loud and fail fast, and rolling back should be a button, not an incident. That means automated tests and security scanning gate every merge, deploys use blue/green or canary rollout for anything user-facing, and secrets never live as static credentials in the CI config — we default to short-lived, dynamically issued credentials." },
+      { type: "h2", text: "Who this is for" },
+      { type: "p", text: "Startups that need a first real pipeline instead of manual deploys, and larger teams whose existing pipeline has become a bottleneck — slow, flaky, or missing the safety nets that stop a bad deploy from becoming an incident." },
+      { type: "h2", text: "Common questions" },
+      { type: "h3", text: "Can you set this up without downtime on our existing repo?" },
+      { type: "p", text: "Yes — pipelines are built and validated against a staging branch before they touch production deploys, so there's no cutover risk to your current release process." },
+      { type: "h3", text: "Do you support GitLab or other CI platforms besides GitHub Actions and Azure DevOps?" },
+      { type: "p", text: "Those two are our default recommendation, but the same design principles apply to GitLab CI, CircleCI, or Jenkins if that's your existing platform." },
+      { type: "h3", text: "Is secrets management part of this, or a separate service?" },
+      { type: "p", text: "It's included by default — every pipeline we build eliminates long-lived static credentials in favor of short-lived, dynamically issued tokens." },
+    ],
+    faqs: [
+      { q: "Can you set this up without downtime on our existing repo?", a: "Yes — pipelines are built and validated against a staging branch before they touch production deploys." },
+      { q: "Do you support platforms besides GitHub Actions and Azure DevOps?", a: "Those are our default recommendation, but the same principles apply to GitLab CI, CircleCI, or Jenkins." },
+      { q: "Is secrets management part of this, or a separate service?", a: "It's included by default — every pipeline eliminates long-lived static credentials in favor of short-lived, dynamically issued tokens." },
+    ],
+  },
+  {
+    slug: "cloud-infrastructure",
+    icon: "☁️",
+    title: "Cloud Infrastructure Services (AWS / Azure / GCP)",
+    tagline: "Well-architected infrastructure, not just a server and a prayer.",
+    metaDescription: "Cloud infrastructure services on AWS, Azure, and GCP: Terraform IaC, high availability architecture, cost optimization, and cloud migration.",
+    benefits: ["Terraform Infrastructure as Code", "Multi-region, HA architecture", "Cost optimization & FinOps", "Compliance & security posture", "Cloud migration & modernization"],
+    cases: ["Cloud-native greenfield builds", "On-prem to cloud migration", "Disaster recovery setup", "Cost optimization audits"],
+    body: [
+      { type: "p", text: "Cloud infrastructure that works in a demo and infrastructure that survives a traffic spike, a region outage, or a compliance audit are built differently from the start. We design against the Well-Architected pillars — reliability, security, cost, operations, and performance — as defaults, not a checklist applied after something breaks." },
+      { type: "h2", text: "What's included" },
+      { type: "list", items: ["Terraform Infrastructure as Code, version-controlled and peer-reviewed", "Multi-region, high-availability architecture", "Cost optimization & FinOps review", "Compliance and security posture (encryption, least-privilege IAM, private networking)", "Cloud migration and modernization from on-prem or another provider"] },
+      { type: "h2", text: "How we approach a build" },
+      { type: "p", text: "Everything is defined as code from the first resource — no manual console changes that drift from what's documented. We size for your actual traffic and growth projections rather than defaulting to the largest instance type, and every architecture includes a documented disaster recovery posture with real RTO/RPO targets, not just \"we have backups.\"" },
+      { type: "h2", text: "Who this is for" },
+      { type: "p", text: "Greenfield products that want to get infrastructure right from the first deploy, and existing teams migrating off on-prem infrastructure or consolidating a sprawling, manually-managed cloud account into something reproducible and auditable." },
+      { type: "h2", text: "Common questions" },
+      { type: "h3", text: "Which cloud provider do you recommend?" },
+      { type: "p", text: "It depends on your team's existing tooling, compliance requirements, and where your users are — we'll give you a direct recommendation after understanding your constraints, not a default answer." },
+      { type: "h3", text: "Can you migrate us from on-prem or another cloud provider?" },
+      { type: "p", text: "Yes — migration engagements start with a full inventory and dependency map before any cutover plan is written." },
+      { type: "h3", text: "Do you do cost audits for infrastructure we already have?" },
+      { type: "p", text: "Yes, standalone cost optimization audits are available without a full infrastructure rebuild — many clients start there." },
+    ],
+    faqs: [
+      { q: "Which cloud provider do you recommend?", a: "It depends on your team's existing tooling, compliance requirements, and user location — we give a direct recommendation after understanding your constraints." },
+      { q: "Can you migrate us from on-prem or another cloud provider?", a: "Yes — migration engagements start with a full inventory and dependency map before any cutover plan is written." },
+      { q: "Do you do cost audits for infrastructure we already have?", a: "Yes, standalone cost optimization audits are available without a full infrastructure rebuild." },
+    ],
+  },
+  {
+    slug: "kubernetes-containerization",
+    icon: "🐳",
+    title: "Kubernetes & Containerization Services",
+    tagline: "Production-grade clusters — not just kubectl apply and hope.",
+    metaDescription: "Kubernetes and containerization services: EKS, AKS, and GKE cluster setup, Helm charts, service mesh, and autoscaling for production workloads.",
+    benefits: ["EKS / AKS / GKE cluster setup", "Helm chart authoring", "Service mesh (Istio/Linkerd)", "Pod autoscaling (HPA/KEDA)", "cert-manager & Ingress NGINX"],
+    cases: ["Microservices orchestration", "Multi-tenant SaaS platforms", "Batch processing workloads", "ML model serving"],
+    body: [
+      { type: "p", text: "Kubernetes is easy to get running and genuinely hard to run well — the gap between a cluster that works in a demo and one that survives a node failure, a bad deploy, and a security review is where most of our engineering time actually goes." },
+      { type: "h2", text: "What's included" },
+      { type: "list", items: ["EKS, AKS, or GKE cluster setup and hardening", "Helm chart authoring for your workloads", "Service mesh setup (Istio or Linkerd) where warranted", "Pod autoscaling (HPA and KEDA for event-driven workloads)", "cert-manager and Ingress NGINX configuration"] },
+      { type: "h2", text: "How we build a cluster" },
+      { type: "p", text: "We scope RBAC per-namespace and per-workload from the first deploy, set resource requests before touching autoscaling, and treat PodDisruptionBudgets and readiness probes as required, not optional. Every cluster ships with an observability stack (Prometheus + Grafana at minimum) wired in from day one, and an upgrade strategy that's been rehearsed, not improvised at the next Kubernetes release." },
+      { type: "h2", text: "Who this is for" },
+      { type: "p", text: "Teams running real microservices that have outgrown a single VM or App Service, multi-tenant SaaS platforms that need workload isolation, and teams running batch or ML workloads that benefit from Kubernetes' scheduling and autoscaling rather than fixed compute." },
+      { type: "h2", text: "Common questions" },
+      { type: "h3", text: "Is Kubernetes overkill for us?" },
+      { type: "p", text: "Often, yes — and we'll tell you that directly during scoping. If your workload is a handful of services with predictable load, a simpler platform (App Service, ECS, Cloud Run) is usually the right call. Kubernetes earns its complexity at real microservice or multi-tenant scale." },
+      { type: "h3", text: "Do you support all three major managed Kubernetes services?" },
+      { type: "p", text: "Yes — EKS, AKS, and GKE, chosen based on where your other infrastructure already lives rather than a default preference." },
+      { type: "h3", text: "Do you provide ongoing support after the cluster is live?" },
+      { type: "p", text: "Yes, through our Monitoring & Observability service and ongoing retainer support — a cluster we hand off with no ongoing relationship isn't how we scope these engagements." },
+    ],
+    faqs: [
+      { q: "Is Kubernetes overkill for us?", a: "Often, yes — for predictable, small-scale workloads a simpler platform (App Service, ECS, Cloud Run) is usually the right call. Kubernetes earns its complexity at real microservice or multi-tenant scale." },
+      { q: "Do you support all three major managed Kubernetes services?", a: "Yes — EKS, AKS, and GKE, chosen based on where your other infrastructure already lives." },
+      { q: "Do you provide ongoing support after the cluster is live?", a: "Yes, through our Monitoring & Observability service and ongoing retainer support." },
+    ],
+  },
+];
+
+const SERVICE_SLUG_BY_TITLE = {
+  "UI/UX Design": "ui-ux-design",
+  "Web Development": "web-development",
+  "Mobile App Development": "mobile-app-development",
+  "DevOps & CI/CD": "devops-cicd",
+  "Cloud Infrastructure (AWS / Azure / GCP)": "cloud-infrastructure",
+  "Kubernetes & Containerization": "kubernetes-containerization",
+};
+
+const ServiceDetailPage = () => {
+  const { slug } = useParams();
+  const service = SERVICE_PAGES.find((s) => s.slug === slug);
+
+  if (!service) {
+    return (
+      <div className="page" style={{ paddingTop: 70 }}>
+        <section>
+          <h1 className="section-title">Service not found</h1>
+          <p className="section-sub">This service page may have been moved or removed.</p>
+          <Link to="/services" className="btn-primary" style={{ display: "inline-flex", marginTop: 16 }}>← Back to Services</Link>
+        </section>
+      </div>
+    );
+  }
+
+  return (
+    <div className="page" style={{ paddingTop: 70 }}>
+      <article>
+        <section style={{ paddingBottom: 0 }}>
+          <Link to="/services" style={{ color: "var(--orange)", fontWeight: 700, fontSize: "0.9rem", textDecoration: "none" }}>← Back to Services</Link>
+          <div style={{ display: "flex", alignItems: "center", gap: 14, marginTop: 20 }}>
+            <div className="card-icon" style={{ margin: 0 }}>{service.icon}</div>
+            <h1 className="section-title" style={{ maxWidth: 780, margin: 0 }}>{service.title}</h1>
+          </div>
+          <p className="section-sub">{service.tagline}</p>
+        </section>
+        <section style={{ maxWidth: 780 }}>
+          {service.body.map(renderBlock)}
+        </section>
+        <div className="cta-band">
+          <h2>Ready to talk <span style={{ color: "var(--orange)" }}>{service.title.replace(" Services", "")}?</span></h2>
+          <p>Book a free scope call — we'll map this to your actual requirements, no generic proposal.</p>
+          <div className="cta-band-actions">
+            <Link to="/contact" className="btn-primary">Book Free Scope Call</Link>
+          </div>
+        </div>
+      </article>
+    </div>
+  );
+};
+
 const ServicesPage = () => (
   <div className="page" style={{ paddingTop: 70 }}>
     <section>
@@ -825,6 +1060,11 @@ const ServicesPage = () => (
                   ))}
                 </div>
               </div>
+              {SERVICE_SLUG_BY_TITLE[s.title] && (
+                <Link to={`/services/${SERVICE_SLUG_BY_TITLE[s.title]}`} style={{ display: "inline-block", marginTop: 20, color: "var(--orange)", fontWeight: 700, fontSize: "0.85rem", textDecoration: "none" }}>
+                  Learn more →
+                </Link>
+              )}
             </div>
           ))}
         </div>
@@ -1501,12 +1741,12 @@ const StatusPage = () => (
 const footerColumns = [
   {
     title: "Services", links: [
-      { label: "UI/UX Design", path: "/services" },
-      { label: "Web Development", path: "/services" },
-      { label: "Mobile Apps", path: "/services" },
-      { label: "DevOps & CI/CD", path: "/services" },
-      { label: "Cloud Infrastructure", path: "/services" },
-      { label: "Kubernetes", path: "/services" },
+      { label: "UI/UX Design", path: "/services/ui-ux-design" },
+      { label: "Web Development", path: "/services/web-development" },
+      { label: "Mobile Apps", path: "/services/mobile-app-development" },
+      { label: "DevOps & CI/CD", path: "/services/devops-cicd" },
+      { label: "Cloud Infrastructure", path: "/services/cloud-infrastructure" },
+      { label: "Kubernetes", path: "/services/kubernetes-containerization" },
     ]
   },
   {
@@ -1626,6 +1866,13 @@ BLOG_POSTS.forEach((post) => {
   };
 });
 
+SERVICE_PAGES.forEach((service) => {
+  PAGE_META[`/services/${service.slug}`] = {
+    title: `${service.title} | 3D³`,
+    description: service.metaDescription,
+  };
+});
+
 const SITE_URL = "https://3dstack.in";
 
 const setMetaTag = (selector, attr, attrValue, content) => {
@@ -1678,6 +1925,7 @@ export const AppShell = () => (
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/services" element={<ServicesPage />} />
+        <Route path="/services/:slug" element={<ServiceDetailPage />} />
         <Route path="/process" element={<ProcessPage />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/:slug" element={<BlogPostPage />} />

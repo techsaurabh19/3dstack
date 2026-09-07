@@ -1,6 +1,6 @@
 import { renderToString } from "react-dom/server";
 import { StaticRouter } from "react-router-dom";
-import { AppShell, PAGE_META, FAQ_ITEMS, BLOG_POSTS } from "./App.jsx";
+import { AppShell, PAGE_META, FAQ_ITEMS, BLOG_POSTS, SERVICE_PAGES } from "./App.jsx";
 
 export function render(url) {
   return renderToString(
@@ -10,4 +10,4 @@ export function render(url) {
   );
 }
 
-export { PAGE_META, FAQ_ITEMS, BLOG_POSTS };
+export { PAGE_META, FAQ_ITEMS, BLOG_POSTS, SERVICE_PAGES };

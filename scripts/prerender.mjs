@@ -20,9 +20,10 @@ const replaceTag = (html, regex, replacement) => {
 };
 
 async function main() {
-  const { render, PAGE_META, FAQ_ITEMS, BLOG_POSTS } = await import(ssrEntry);
+  const { render, PAGE_META, FAQ_ITEMS, BLOG_POSTS, SERVICE_PAGES } = await import(ssrEntry);
   const template = fs.readFileSync(path.join(distDir, "index.html"), "utf-8");
   const blogPostBySlug = new Map((BLOG_POSTS || []).map((p) => [`/blog/${p.slug}`, p]));
+  const servicePageBySlug = new Map((SERVICE_PAGES || []).map((s) => [`/services/${s.slug}`, s]));
 
   for (const [routePath, meta] of Object.entries(PAGE_META)) {
     const canonicalUrl = `${SITE_URL}${routePath === "/" ? "" : routePath}`;
@@ -100,6 +101,39 @@ async function main() {
         "</head>",
         `<script type="application/ld+json">${JSON.stringify(faqSchema)}</script></head>`
       );
+    }
+
+    const servicePage = servicePageBySlug.get(routePath);
+    if (servicePage) {
+      const serviceSchema = {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        name: servicePage.title,
+        description: servicePage.metaDescription,
+        provider: { "@type": "Organization", name: "3D³", url: SITE_URL },
+        areaServed: "Worldwide",
+        url: canonicalUrl,
+      };
+      html = html.replace(
+        "</head>",
+        `<script type="application/ld+json">${JSON.stringify(serviceSchema)}</script></head>`
+      );
+
+      if (Array.isArray(servicePage.faqs) && servicePage.faqs.length) {
+        const serviceFaqSchema = {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: servicePage.faqs.map((item) => ({
+            "@type": "Question",
+            name: item.q,
+            acceptedAnswer: { "@type": "Answer", text: item.a },
+          })),
+        };
+        html = html.replace(
+          "</head>",
+          `<script type="application/ld+json">${JSON.stringify(serviceFaqSchema)}</script></head>`
+        );
+      }
     }
 
     html = html.replace(
