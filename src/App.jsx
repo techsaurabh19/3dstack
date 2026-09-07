@@ -4,8 +4,6 @@ import { BrowserRouter, Routes, Route, Link, Navigate, useLocation, useNavigate 
 /* ─── GLOBAL STYLES ─────────────────────────────────────────── */
 const GlobalStyle = () => (
   <style>{`
-    @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
@@ -935,7 +933,7 @@ const BlogPage = () => (
     <section style={{ paddingTop: 0 }}>
       <div className="grid-3">
         {posts.map((p) => (
-          <div className="card blog-card" key={p.title} style={{ padding: 0, cursor: "pointer" }}>
+          <div className="card blog-card" key={p.title} style={{ padding: 0 }}>
             <div className="blog-img">{p.icon}</div>
             <div className="blog-body">
               <span className="blog-tag">{p.tag}</span>
@@ -1165,7 +1163,7 @@ const CaseStudiesPage = () => (
 );
 
 /* ─── DOCUMENTATION PAGE ──────────────────────────────────── */
-const docs = [
+export const FAQ_ITEMS = [
   { q: "What's included in a typical engagement?", a: "Depending on scope: discovery & design, full-stack development, CI/CD pipeline setup, cloud infrastructure, and post-launch monitoring. See our Process page for the full breakdown." },
   { q: "What tech stack do you use?", a: "React/Next.js/Vue on the frontend, Node.js/Python/Go on the backend, Kubernetes on AWS/Azure/GCP for infrastructure, and Terraform for IaC. We adapt to your existing stack when needed." },
   { q: "Do you provide post-launch support?", a: "Yes — every engagement includes a support window post-launch, and ongoing retainers are available for continued feature work and monitoring." },
@@ -1183,7 +1181,7 @@ const DocumentationPage = () => (
     </section>
     <section style={{ paddingTop: 0 }}>
       <div className="grid-2">
-        {docs.map((d) => (
+        {FAQ_ITEMS.map((d) => (
           <div className="card" key={d.q}>
             <h3 style={{ marginBottom: 10 }}>{d.q}</h3>
             <p>{d.a}</p>
@@ -1373,7 +1371,7 @@ const Footer = () => (
 );
 
 /* ─── PAGE META (per-route title & description) ──────────── */
-const PAGE_META = {
+export const PAGE_META = {
   "/": {
     title: "3D Design Develop Deploy — Design, Development & DevOps Agency",
     description: "One partner for design, development, DevOps, and cloud. We turn your vision into a scalable, production-ready product — fast, clean, and future-proof.",
@@ -1416,6 +1414,18 @@ const PAGE_META = {
   },
 };
 
+const SITE_URL = "https://3dstack.in";
+
+const setMetaTag = (selector, attr, attrValue, content) => {
+  let tag = document.querySelector(selector);
+  if (!tag) {
+    tag = document.createElement("meta");
+    tag.setAttribute(attr, attrValue);
+    document.head.appendChild(tag);
+  }
+  tag.setAttribute("content", content);
+};
+
 const RouteEffects = () => {
   const location = useLocation();
 
@@ -1423,43 +1433,58 @@ const RouteEffects = () => {
     window.scrollTo(0, 0);
 
     const meta = PAGE_META[location.pathname] || PAGE_META["/"];
-    document.title = meta.title;
+    const canonicalUrl = `${SITE_URL}${location.pathname === "/" ? "" : location.pathname}`;
 
-    let tag = document.querySelector('meta[name="description"]');
-    if (!tag) {
-      tag = document.createElement("meta");
-      tag.setAttribute("name", "description");
-      document.head.appendChild(tag);
+    document.title = meta.title;
+    setMetaTag('meta[name="description"]', "name", "description", meta.description);
+    setMetaTag('meta[property="og:title"]', "property", "og:title", meta.title);
+    setMetaTag('meta[property="og:description"]', "property", "og:description", meta.description);
+    setMetaTag('meta[property="og:url"]', "property", "og:url", canonicalUrl);
+    setMetaTag('meta[name="twitter:title"]', "name", "twitter:title", meta.title);
+    setMetaTag('meta[name="twitter:description"]', "name", "twitter:description", meta.description);
+
+    let link = document.querySelector('link[rel="canonical"]');
+    if (!link) {
+      link = document.createElement("link");
+      link.setAttribute("rel", "canonical");
+      document.head.appendChild(link);
     }
-    tag.setAttribute("content", meta.description);
+    link.setAttribute("href", canonicalUrl);
   }, [location.pathname]);
 
   return null;
 };
 
+/* ─── APP SHELL (router-agnostic — used for client hydration and static prerendering) ── */
+export const AppShell = () => (
+  <>
+    <GlobalStyle />
+    <RouteEffects />
+    <Nav />
+    <main>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/services" element={<ServicesPage />} />
+        <Route path="/process" element={<ProcessPage />} />
+        <Route path="/blog" element={<BlogPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/case-studies" element={<CaseStudiesPage />} />
+        <Route path="/documentation" element={<DocumentationPage />} />
+        <Route path="/pricing" element={<PricingPage />} />
+        <Route path="/status" element={<StatusPage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </main>
+    <Footer />
+  </>
+);
+
 /* ─── APP ─────────────────────────────────────────────────── */
 export default function App() {
   return (
     <BrowserRouter>
-      <GlobalStyle />
-      <RouteEffects />
-      <Nav />
-      <main>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/services" element={<ServicesPage />} />
-          <Route path="/process" element={<ProcessPage />} />
-          <Route path="/blog" element={<BlogPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/case-studies" element={<CaseStudiesPage />} />
-          <Route path="/documentation" element={<DocumentationPage />} />
-          <Route path="/pricing" element={<PricingPage />} />
-          <Route path="/status" element={<StatusPage />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </main>
-      <Footer />
+      <AppShell />
     </BrowserRouter>
   );
 }

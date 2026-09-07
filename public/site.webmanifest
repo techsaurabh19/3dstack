@@ -1,0 +1,11 @@
+{
+  "name": "3D Design Develop Deploy",
+  "short_name": "3D³",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ],
+  "theme_color": "#0D1B35",
+  "background_color": "#0D1B35",
+  "display": "standalone",
+  "start_url": "/"
+}
