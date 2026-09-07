@@ -474,7 +474,12 @@ const Nav = () => {
           ))}
         </ul>
         <Link to="/contact" className="nav-cta">Get Started →</Link>
-        <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
+        <button
+          className="hamburger"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={menuOpen}
+        >
           <span /><span /><span />
         </button>
       </nav>
