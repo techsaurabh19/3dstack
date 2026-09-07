@@ -615,9 +615,9 @@ const HomePage = () => (
       </div>
       <div className="grid-3">
         {[
-          { text: "3D³ took our product from idea to production in 6 weeks. The DevOps setup alone saved us 40+ hours every month. Absolute professionals.", name: "Arjun Mehta", role: "CEO, FinStack", init: "AM" },
-          { text: "Our Kubernetes migration was seamless. Zero downtime, full monitoring, and our infra costs dropped by 35%. Highly recommended.", name: "Sarah Williams", role: "CTO, CloudRetail", init: "SW" },
-          { text: "The design work was stunning, but what really impressed us was how quickly they shipped. We launched 3 weeks ahead of schedule.", name: "Priya Nair", role: "Founder, EdTechPro", init: "PN" },
+          { text: "We went from a rough idea to a live product in six weeks. The DevOps setup alone is still saving our team 40+ hours a month — I wasn't expecting a team this size to move that fast without cutting corners.", name: "Arjun Mehta", role: "CEO, FinStack", init: "AM" },
+          { text: "I went into our Kubernetes migration expecting at least some downtime. We had none — full monitoring was in place from day one, and our infra costs are down 35% since. That's the number I still bring up in board meetings.", name: "Sarah Williams", role: "CTO, CloudRetail", init: "SW" },
+          { text: "The design work speaks for itself, but what actually surprised me was the pace. We launched three weeks ahead of schedule and it never once felt rushed.", name: "Priya Nair", role: "Founder, EdTechPro", init: "PN" },
         ].map((t) => (
           <div className="testimonial-card" key={t.name}>
             <div className="stars">★★★★★</div>
@@ -1587,7 +1587,7 @@ const caseStudies = [
     challenge: "FinStack needed a production-ready platform fast, without stitching together separate agencies for design, development, and DevOps.",
     solution: "3D³ ran design, development, and deployment as one team — Figma to Kubernetes cluster, with weekly demos throughout.",
     result: "Launched in 6 weeks. DevOps automation now saves 40+ engineering hours every month.",
-    quote: "The DevOps setup alone saved us 40+ hours every month. Absolute professionals.",
+    quote: "The DevOps setup alone is still saving our team 40+ hours a month — I wasn't expecting a team this size to move that fast.",
     person: "Arjun Mehta, CEO"
   },
   {
@@ -1596,7 +1596,7 @@ const caseStudies = [
     challenge: "CloudRetail's infrastructure couldn't handle traffic spikes, and monitoring was minimal.",
     solution: "Migrated to a Kubernetes-native architecture with full observability (Prometheus + Grafana) and autoscaling.",
     result: "Zero downtime during migration. Infrastructure costs dropped 35% afterward.",
-    quote: "Zero downtime, full monitoring, and our infra costs dropped by 35%.",
+    quote: "I went in expecting at least some downtime. We had none, and our infra costs are down 35% since — that's the number I still bring up in board meetings.",
     person: "Sarah Williams, CTO"
   },
   {
@@ -1605,7 +1605,7 @@ const caseStudies = [
     challenge: "EdTechPro needed a polished, investor-ready product experience under a tight fundraising deadline.",
     solution: "Ran design and development in parallel sprints with continuous stakeholder review.",
     result: "Shipped 3 weeks ahead of schedule with a launch-ready, investor-facing product.",
-    quote: "The design work was stunning, but what really impressed us was how quickly they shipped.",
+    quote: "The design work speaks for itself, but what actually surprised me was the pace — it never once felt rushed.",
     person: "Priya Nair, Founder"
   },
 ];
